@@ -1,6 +1,5 @@
-using System;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Project.Scripts.LevelObjects
 {
@@ -20,22 +19,17 @@ namespace Project.Scripts.LevelObjects
 
         private void OnEnable()
         {
-            foreach (var trigger in triggers)
-            {
-                trigger.onStateChange.AddListener(CheckTriggers);
-            }
+            foreach (var trigger in triggers)trigger.onStateChange.AddListener(CheckTriggers);
+        }
+
+        private void OnDisable()
+        {
+            foreach (var trigger in triggers)trigger.onStateChange.RemoveListener(CheckTriggers);
         }
 
         private void CheckTriggers(bool arg0)
         {
-            var newState = false;
-            foreach (var trigger in triggers)
-            {
-                if(!trigger.State)continue;
-                newState = true;
-                break;
-            }
-            State = newState;
+            State = triggers.Any(trigger => trigger.State);
         }
     }
 }
