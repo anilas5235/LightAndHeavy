@@ -1,134 +1,202 @@
-﻿using System.Collections;
+﻿using System;
 using AttributesLibrary.DrawIfAttribute;
 using Project.Scripts.Attributes;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace ControllerPlugin.Scripts
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
     public class BasicCharacterController2D : MonoBehaviour
     {
-        [SerializeField] protected LayerMask groundLayers;
+        [SerializeField] private LayerMask groundLayers;
+        [SerializeField, Range(0.01f, 10f)] private float gravityScale = 1f;
 
-        [Header("Speed Settings"), SerializeField, Range(0f, 100f)]
-        protected float maxSpeed = 4f;
+        [SerializeField, Range(0f, 100f)] protected float maxSpeed = 4f;
+        [SerializeField, Range(0f, 100f)] private float maxFallSpeed = 6f;
+        [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
+        [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
 
-        [SerializeField, Range(0f, 100f)] protected float maxFallSpeed = 6f;
-        [SerializeField, Range(0f, 100f)] protected float maxAcceleration = 35f;
-        [SerializeField, Range(0f, 100f)] protected float maxAirAcceleration = 20f;
-        [SerializeField, Range(0.01f, 10f)] protected float gravityScale = 1f;
+        [SerializeField] private bool canJump = true;
+        [SerializeField] private FloatMinMax jumpHeight = new (){max = 3f,min = .25f};
+        [SerializeField, Range(0f, 3f)] private float timeTillApex = 1f;
 
-        [Header("Jump Settings"), SerializeField]
-        protected bool canJump = true;
-
-        [DrawIf("canJump", true, ComparisonType.Equals), SerializeField, Range(0f, 10f)]
-        private float maxJumpHeight = 3f;
-        
-        [DrawIf("canJump", true, ComparisonType.Equals), SerializeField, Range(0f, 10f)]
-        private float minJumpHeight = .25f;
-        
-        [DrawIf("canJump", true, ComparisonType.Equals), SerializeField, Range(0f, 3f)]
-        private float timeTillApex = 1f;
-
-        [DrawIf("canJump", true, ComparisonType.Equals), SerializeField, Range(0, 5)]
-        private int maxAirJumps;
-
-        [Header("Info"), SerializeField, ReadOnly]
-        private Vector2 velocity;
+        [SerializeField] private bool canAirJump;
+        [SerializeField, Range(0, 5)] private int maxAirJumps;
 
         [SerializeField, ReadOnly] private Vector2Int input;
+        [SerializeField, ReadOnly] private CharacterActionState currentCharacterActionState = CharacterActionState.Idle;
+        [SerializeField, ReadOnly] private Character2DFacingDirection currentCharacter2DFacingDirection = Character2DFacingDirection.None;
         [SerializeField, ReadOnly] private bool onGround;
-        [SerializeField, ReadOnly] private bool isJumping;
-
+        [SerializeField, ReadOnly] private float gravity;
         [SerializeField, ReadOnly] private float maxJumpVelocity;
         [SerializeField, ReadOnly] private float minJumpVelocity;
-        [SerializeField, ReadOnly] private float defaultGravityScale;
         
         private Rigidbody2D _rigidBody2D;
         private BoxCollider2D _boxCollider2D;
         
         private bool _jumpInput;
-        private bool _jumpCanceled;
+        private bool _jumpCanceledInput;
         
         private int _airJumps;
-        private bool _doneGroundCheck = true;
-        private Coroutine groundCoroutine;
+        
+        public CharacterActionState CurrentCharacterActionState 
+        {
+            get => currentCharacterActionState;
+            protected set
+            {
+                if (currentCharacterActionState == value) return;
+                currentCharacterActionState = value;
+                onCharacterStateChanged?.Invoke(currentCharacterActionState);
+            }
+        }
 
+        public Character2DFacingDirection CurrentCharacter2DFacingDirection
+        {
+            get => currentCharacter2DFacingDirection;
+            protected set
+            {
+                if(currentCharacter2DFacingDirection == value)return;
+                currentCharacter2DFacingDirection = value;
+                onCharacter2DFacingDirectionChanged?.Invoke(currentCharacter2DFacingDirection);
+            }
+        }
+
+        public UnityEvent<CharacterActionState> onCharacterStateChanged;
+        public UnityEvent<Character2DFacingDirection> onCharacter2DFacingDirectionChanged;
         protected virtual void Awake()
         {
             _rigidBody2D = GetComponent<Rigidbody2D>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
+            _rigidBody2D.gravityScale = 0;
             CalculateJumpValues();
         }
 
-        private void CalculateJumpValues()
+        private void OnEnable()
         {
-            _rigidBody2D.gravityScale = gravityScale;
-            maxJumpVelocity = gravityScale* 2*maxJumpHeight * timeTillApex;
-            minJumpVelocity = Mathf.Sqrt(2 *gravityScale * minJumpHeight);
+            CurrentCharacter2DFacingDirection = Character2DFacingDirection.None;
+            CurrentCharacterActionState = CharacterActionState.Idle;
         }
 
         protected void FixedUpdate()
         {
-            velocity = _rigidBody2D.velocity;
-            if (_doneGroundCheck) onGround = CheckIfOnGround();
-            if (isJumping && onGround) isJumping = false;
+            var currentVelocity = _rigidBody2D.velocity;
+            onGround = CheckIfOnGround();
 
-            velocity.x = CalculateNewXVelocityFromInput(input, velocity);
+            ApplyMovement(ref currentVelocity,input);
 
-            if (canJump && _jumpInput)
+            if (canJump)HandleJumpInput(ref currentVelocity);
+
+            ApplyGravity(ref currentVelocity);
+            UpdateStateValues(currentVelocity);
+            LastMinuteVelocityConstrains(ref currentVelocity);
+            _rigidBody2D.velocity = currentVelocity;
+        }
+
+        private void ApplyGravity(ref Vector2 currentVelocity)
+        {
+            currentVelocity.y -= gravity*Time.fixedDeltaTime;
+        }
+
+        private void CalculateJumpValues()
+        {
+            gravity = 2 * jumpHeight.max / Mathf.Pow(timeTillApex,2) * gravityScale;
+            maxJumpVelocity = Mathf.Abs(gravity) * timeTillApex;
+            minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * jumpHeight.min);
+        }
+
+        private void HandleJumpInput(ref Vector2 currentVelocity)
+        {
+            if (_jumpInput)
             {
                 _jumpInput = false;
-                if (onGround)
+                switch (currentCharacterActionState)
                 {
-                    _doneGroundCheck = false;
-                    if(groundCoroutine != null) StopCoroutine(groundCoroutine);
-                    groundCoroutine = StartCoroutine(ActivateGroundDetectAfter(.2f));
-                    isJumping = true;
-                    _airJumps = 0;
-                    HandleJump(ref velocity);
-                    onGround = false;
-                }
-                else if (isJumping && _airJumps < maxAirJumps)
-                {
-                    isJumping = true;
-                    HandleJump(ref velocity);
+                    case CharacterActionState.Jumping:
+                    case CharacterActionState.Falling:
+                        if (_airJumps >= maxAirJumps) break;
+                        currentCharacterActionState = CharacterActionState.Jumping;
+                        HandleAirJump(ref currentVelocity);
+                        break;
+                    case CharacterActionState.WallSliding:
+                        break;
+                    case CharacterActionState.Dashing:
+                        break;
+                    default:
+                        if (!onGround) break;
+                        currentCharacterActionState = CharacterActionState.Jumping;
+                        _airJumps = 0;
+                        HandleNewJump(ref currentVelocity);
+                        break;
                 }
             }
-            else if (isJumping && _jumpCanceled)
-            { 
-                HandleJumpCanceled(ref velocity);
-                _jumpCanceled = false;
+            else if (canAirJump && _jumpCanceledInput && currentCharacterActionState == CharacterActionState.Jumping)
+            {
+                _jumpCanceledInput = false;
+                HandleJumpCanceled(ref currentVelocity);
             }
-            
-            LastMinuteVelocityConstrains();
-            _rigidBody2D.velocity = velocity;
         }
 
-        protected virtual float CalculateNewXVelocityFromInput(Vector2Int inputVector, Vector2 currentVelocity)
+        private void UpdateStateValues(Vector2 currentVelocity)
         {
-            var desiredVelocity = new Vector2(inputVector.x, 0f) * maxSpeed;
-            var acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-            var maxSpeedChange = acceleration * Time.deltaTime;
-            return Mathf.MoveTowards(currentVelocity.x, desiredVelocity.x, maxSpeedChange);
+            if (!onGround && currentVelocity.y < 0 && currentCharacterActionState != CharacterActionState.WallSliding)
+                CurrentCharacterActionState = CharacterActionState.Falling;
+            
+            currentCharacter2DFacingDirection = currentVelocity.x switch
+            {
+                < 0 => Character2DFacingDirection.Left,
+                > 0 => Character2DFacingDirection.Right,
+                _ => Character2DFacingDirection.None
+            };
         }
 
-        protected virtual void HandleJump(ref Vector2 currentVelocity)
+        protected virtual void ApplyMovement(ref Vector2 currentVelocity,Vector2Int inputVector)
+        {
+            var desiredVelocity = Vector2.right * (Mathf.Sign(inputVector.x) * maxSpeed);
+            var acceleration = onGround ? maxAcceleration : maxAirAcceleration;
+            currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredVelocity.x, acceleration * Time.fixedDeltaTime);
+        }
+
+        protected virtual void HandleNewJump(ref Vector2 currentVelocity)
         {
             currentVelocity.y = maxJumpVelocity;
         }
-
+        
+        protected virtual void HandleAirJump(ref Vector2 currentVelocity)
+        {
+            currentVelocity.y = maxJumpVelocity;
+        }
+        
         protected virtual void HandleJumpCanceled(ref Vector2 currentVelocity)
         {
             if (currentVelocity.y > minJumpVelocity) currentVelocity.y = minJumpVelocity;
         }
 
-        protected virtual void LastMinuteVelocityConstrains()
+        private void LastMinuteVelocityConstrains(ref Vector2 currentVelocity)
         {
-            if (onGround) velocity.y = 0;
-            else if (velocity.y < -maxFallSpeed) velocity.y = -maxFallSpeed;
+            switch (currentCharacterActionState)
+            {
+                case CharacterActionState.Idle:
+                    break;
+                case CharacterActionState.Walking:
+                    break;
+                case CharacterActionState.Running:
+                    break;
+                case CharacterActionState.Jumping:
+                    break;
+                case CharacterActionState.Falling: 
+                    if (currentVelocity.y < -maxFallSpeed) currentVelocity.y = -maxFallSpeed;
+                    break;
+                case CharacterActionState.WallSliding:
+                    break;
+                case CharacterActionState.Dashing:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
+            if(onGround && currentVelocity.y < 0) currentVelocity.y = 0;
         }
 
         protected virtual bool CheckIfOnGround()
@@ -147,22 +215,40 @@ namespace ControllerPlugin.Scripts
             return false;
         }
 
-        private IEnumerator ActivateGroundDetectAfter(float sec)
-        {
-            yield return new WaitForSeconds(sec);
-            _doneGroundCheck = true;
-            groundCoroutine = null;
-        }
-
         public virtual void JumpInput(InputAction.CallbackContext context)
         {
             if (!_jumpInput && context.started) _jumpInput = true;
-            if (!_jumpCanceled && context.canceled) _jumpCanceled = true;
+            if (!_jumpCanceledInput && context.canceled) _jumpCanceledInput = true;
         }
 
         public virtual void HorizontalInput(InputAction.CallbackContext context)
         {
             input.x = Mathf.RoundToInt(context.ReadValue<float>());
         }
+    }
+
+    public enum CharacterActionState : byte
+    {
+        Idle,
+        Walking,
+        Running,
+        Jumping,
+        Falling,
+        WallSliding,
+        Dashing
+    }
+
+    public enum Character2DFacingDirection : byte
+    {
+        None,
+        Right,
+        Left
+    }
+
+    [Serializable]
+    public struct FloatMinMax
+    {
+        public float min;
+        public float max;
     }
 }

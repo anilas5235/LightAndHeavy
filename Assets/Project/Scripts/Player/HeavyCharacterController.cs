@@ -26,10 +26,6 @@ namespace Project.Scripts.Player
         {
            _mainInput.Disable();
         }
-        private void OnValidate()
-        {
-            canJump = false;
-        }
 
         public ElementType GetElementType()
         {
