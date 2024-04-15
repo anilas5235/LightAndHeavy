@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3286986626585590258}
   - component: {fileID: 1538721199216920068}
   - component: {fileID: 7667789870963433751}
+  - component: {fileID: 1391896169844228190}
   m_Layer: 7
   m_Name: HeavyPlayer
   m_TagString: Player
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+  m_Sprite: {fileID: -3229457778085692756, guid: 061e846bd4a5ba449bf75b630b1a7dcb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -150,7 +151,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.22, y: 0.18}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -178,12 +179,37 @@ MonoBehaviour:
   maxFallSpeed: 6
   maxAcceleration: 35
   maxAirAcceleration: 20
+  gravityScale: 1
   canJump: 0
-  jumpHeight: 3
+  maxJumpHeight: 3
+  minJumpHeight: 0.25
+  timeTillApex: 1
   maxAirJumps: 0
-  downwardMovementMultiplier: 3
-  upwardMovementMultiplier: 1.7
   velocity: {x: 0, y: 0}
   input: {x: 0, y: 0}
   onGround: 0
   isJumping: 0
+  maxJumpVelocity: 0
+  minJumpVelocity: 0
+  defaultGravityScale: 0
+--- !u!95 &1391896169844228190
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571026618042684391}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 705fd4f3bd9c1ac4bae05e5a319f5599, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
