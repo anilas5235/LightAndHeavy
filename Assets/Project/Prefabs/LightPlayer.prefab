@@ -176,18 +176,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 119
   maxSpeed: 4
-  maxFallSpeed: 6
+  maxFallSpeed: 30
   maxAcceleration: 35
   maxAirAcceleration: 20
+  gravityScale: 2
   canJump: 1
-  jumpHeight: 10
+  maxJumpHeight: 3
+  minJumpHeight: 0.25
+  timeTillApex: 0.75
   maxAirJumps: 0
-  downwardMovementMultiplier: 3
-  upwardMovementMultiplier: 1.7
   velocity: {x: 0, y: 0}
   input: {x: 0, y: 0}
   onGround: 0
   isJumping: 0
+  maxJumpVelocity: 0
+  minJumpVelocity: 0
+  defaultGravityScale: 0
 --- !u!96 &5502472176251442319
 TrailRenderer:
   serializedVersion: 3
