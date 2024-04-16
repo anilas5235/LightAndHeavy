@@ -5,7 +5,7 @@ using static Project.Scripts.Utilities.InputSystemUtility;
 
 namespace Project.Scripts.Player
 {
-    public class HeavyCharacterController : BasicCharacterController2D, IHaveElementType
+    public class HeavyCharacterController : AdvancedCharacterController2D, IHaveElementType
     {
         private MainInput _mainInput;
 

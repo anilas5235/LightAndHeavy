@@ -4,7 +4,7 @@ using UnityEditor;
 namespace Project.Scripts.Player.Editor
 {
     [CustomEditor(typeof(LightCharacterController))]
-    public class LightCharacterControllerCustomEditor : BasicCharacterController2DCustomEditor
+    public class LightCharacterControllerCustomEditor : AdvancedCharacterController2DCustomEditor
     {
     }
 }

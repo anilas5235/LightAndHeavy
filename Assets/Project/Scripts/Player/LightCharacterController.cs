@@ -6,7 +6,7 @@ using static Project.Scripts.Utilities.InputSystemUtility;
 
 namespace Project.Scripts.Player
 {
-    public class LightCharacterController : BasicCharacterController2D,IHaveElementType
+    public class LightCharacterController : AdvancedCharacterController2D,IHaveElementType
     {
         private MainInput _mainInput;
 

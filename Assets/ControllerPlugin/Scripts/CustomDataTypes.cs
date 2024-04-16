@@ -6,7 +6,6 @@ namespace ControllerPlugin.Scripts
     {
         Idle,
         Walking,
-        Running,
         Jumping,
         Falling,
         WallSliding,
