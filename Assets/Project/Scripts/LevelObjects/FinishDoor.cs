@@ -7,12 +7,6 @@ using UnityEngine.Serialization;
 
 namespace Project.Scripts.LevelObjects
 {
-    public enum ElementType
-    {
-        Light,
-        Heavy,
-        None,
-    }
     public class FinishDoor : MonoBehaviour, IHaveElementType
     {
         [SerializeField] private ElementType elementType;
@@ -20,14 +14,15 @@ namespace Project.Scripts.LevelObjects
         [SerializeField] private SpriteRenderer doorSprite;
         [SerializeField,Range(.001f,5)] private float timeToOpen  = 1;
 
+        #pragma warning disable 414 
         [Header("Info"),SerializeField,ReadOnly] private bool detectedPlayer;
+        #pragma warning restore 414
         [SerializeField,ReadOnly] private bool open;
         private Transform _doorTransform;
         private float _startHeight;
         private Coroutine _doorAction;
 
         public bool Open => open;
-
         [Space] public UnityEvent onDoorOpened;
         private void Awake()
         {
@@ -42,6 +37,7 @@ namespace Project.Scripts.LevelObjects
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!other.gameObject.CompareTag("Player")) return;
+            detectedPlayer = false;
             if(other.gameObject.GetComponent<IHaveElementType>()?.GetElementType() == elementType) DoorClosing();
         }
         private void DoorOpening()
