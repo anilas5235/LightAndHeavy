@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f2d9a30fe483e83478524676e649d7b2
+guid: 713e99574da41f74faaf619a5cd1e2de
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 20
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -94,7 +94,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Server
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -107,7 +107,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Android
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -123,295 +123,211 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_0
+      name: Fan_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 964cc1fb1db5b7f48aea76aff3b445a6
-      internalID: 1932326355
+      spriteID: fe16c3c59d8a38a4b989416def05c32c
+      internalID: -1181694229
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_1
+      name: Fan_1
       rect:
         serializedVersion: 2
-        x: 22
+        x: 331
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ef6c3ba74abe31449a5ed77e0069bd8
-      internalID: 780489189
+      spriteID: 3f8cc22bd1bc2b0489d6bcc5968b6a42
+      internalID: -927339653
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_2
+      name: Fan_2
       rect:
         serializedVersion: 2
-        x: 44
+        x: 664
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4df1d6698c087f45b774c94e2a8b3e2
-      internalID: 2025862970
+      spriteID: b30ce6c42a83089448ca78c48fb5a81c
+      internalID: 1156972641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_3
+      name: Fan_3
       rect:
         serializedVersion: 2
-        x: 66
+        x: 996
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55ac02bd6d42e664890e0c67415938b2
-      internalID: -1478719501
+      spriteID: 67bd2e84d974fce4eaa082dd7c0b1ad2
+      internalID: 440403026
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_4
+      name: Fan_4
       rect:
         serializedVersion: 2
-        x: 88
+        x: 1327
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 20a42419e32e59a4abca7f8b9245857a
-      internalID: 305489087
+      spriteID: af08f7d6a04120044be210f32b57af46
+      internalID: 187985486
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_5
+      name: Fan_5
       rect:
         serializedVersion: 2
-        x: 110
+        x: 1658
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 775d028101d41b34984cb0889b3a48c0
-      internalID: 75548775
+      spriteID: 1d1125a613c457c48ac5f8388a6c6fb9
+      internalID: -1140390868
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_6
+      name: Fan_6
       rect:
         serializedVersion: 2
-        x: 132
+        x: 1992
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e26d0042858b0b8468cd580bc70bea72
-      internalID: 1843381260
+      spriteID: b6973149b91dfc34db4f828e54aa5de8
+      internalID: 1520669248
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_7
+      name: Fan_7
       rect:
         serializedVersion: 2
-        x: 154
+        x: 2324
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 120e8196664d0ab44b3aa2836fc8c971
-      internalID: -46903863
+      spriteID: 208372bcfabec8c41aefc82f8ac8d1a2
+      internalID: 939694712
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_8
+      name: Fan_8
       rect:
         serializedVersion: 2
-        x: 176
+        x: 2656
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2e3698e922f6d6478bd40d50b779a47
-      internalID: 223830065
+      spriteID: ced3bfbde6a9c4142b0d2a56065d8f7d
+      internalID: 608567704
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Paper_Run (22x18)-export_9
+      name: Fan_9
       rect:
         serializedVersion: 2
-        x: 198
+        x: 3320
         y: 0
-        width: 22
-        height: 32
+        width: 332
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ff51964942091d449a488675d091b2d
-      internalID: -2084679907
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Paper_Run (22x18)-export_10
-      rect:
-        serializedVersion: 2
-        x: 220
-        y: 0
-        width: 22
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3c19297b6948a2143b19352b135ec385
-      internalID: -1695494265
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Paper_Run (22x18)-export_11
-      rect:
-        serializedVersion: 2
-        x: 242
-        y: 0
-        width: 22
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d3af9eec118d7fe468b51a1401d5830f
-      internalID: 1778059910
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Paper_Run (22x18)-export_12
-      rect:
-        serializedVersion: 2
-        x: 264
-        y: 0
-        width: 22
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: df987dfc04d7f9a45b5f1a617e925185
-      internalID: 1649167703
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Paper_Run (22x18)-export_13
-      rect:
-        serializedVersion: 2
-        x: 286
-        y: 0
-        width: 22
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f48b62043169a3f41843f7d26586dde7
-      internalID: 1694865227
+      spriteID: ed8adf8573e41d64b8ee00c3f97d4a70
+      internalID: -1033838943
       vertices: []
       indices: 
       edges: []
@@ -427,20 +343,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Paper_Run (22x18)-export_0: 1932326355
-      Paper_Run (22x18)-export_1: 780489189
-      Paper_Run (22x18)-export_10: -1695494265
-      Paper_Run (22x18)-export_11: 1778059910
-      Paper_Run (22x18)-export_12: 1649167703
-      Paper_Run (22x18)-export_13: 1694865227
-      Paper_Run (22x18)-export_2: 2025862970
-      Paper_Run (22x18)-export_3: -1478719501
-      Paper_Run (22x18)-export_4: 305489087
-      Paper_Run (22x18)-export_5: 75548775
-      Paper_Run (22x18)-export_6: 1843381260
-      Paper_Run (22x18)-export_7: -46903863
-      Paper_Run (22x18)-export_8: 223830065
-      Paper_Run (22x18)-export_9: -2084679907
+      Fan_0: -1181694229
+      Fan_1: -927339653
+      Fan_2: 1156972641
+      Fan_3: 440403026
+      Fan_4: 187985486
+      Fan_5: -1140390868
+      Fan_6: 1520669248
+      Fan_7: 939694712
+      Fan_8: 608567704
+      Fan_9: -1033838943
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

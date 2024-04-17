@@ -8,8 +8,10 @@ public class Fan : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D boxCollider2D;
     [SerializeField] private AreaEffector2D areaEffector2D;
+    [SerializeField] private Animator animator;
 
     [SerializeField] private BoolInteractable[] activator;
+    private static readonly int On = Animator.StringToHash("On");
 
     private void OnEnable()
     {
@@ -36,6 +38,7 @@ public class Fan : MonoBehaviour
     {
         boxCollider2D.enabled = arg0;
         areaEffector2D.enabled = arg0;
+        animator.SetBool(On, arg0);
     }
 
     
