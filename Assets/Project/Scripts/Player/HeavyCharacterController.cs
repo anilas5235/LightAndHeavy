@@ -17,8 +17,9 @@ namespace Project.Scripts.Player
             SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyDash,DashInput);
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             _mainInput.Enable();
         }
 

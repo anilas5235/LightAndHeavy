@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9075216779452941981}
   - component: {fileID: 4220492302702689414}
   - component: {fileID: 2874896569356113932}
+  - component: {fileID: 87423438445335207}
   m_Layer: 7
   m_Name: HeavyPlayer
   m_TagString: Player
@@ -145,13 +146,17 @@ MonoBehaviour:
   maxAirJumps: 0
   canWallSlide: 1
   maxWallSlidingSpeed: 1.5
+  canDash: 1
+  dashSpeed: 10
+  dashDuration: 0.5
+  useDashCoolDown: 1
+  dashCoolDown: 1
   currentVelocity: {x: 0, y: 0}
   input: {x: 0, y: 0}
   currentActionState: 0
   current2DFacingDirection: 0
   gravity: 24
-  maxJumpVelocity: 24
-  minJumpVelocity: 3.4641016
+  canDashNow: 0
   onStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -253,3 +258,16 @@ MonoBehaviour:
   advancedCharacterController2D: {fileID: 7667789870963433751}
   spriteRenderer: {fileID: 3682438410149842582}
   initialDirection: 2
+--- !u!114 &87423438445335207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571026618042684391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602663e6407c4d1fa2b43031725fd65c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedCharacterController2D: {fileID: 7667789870963433751}

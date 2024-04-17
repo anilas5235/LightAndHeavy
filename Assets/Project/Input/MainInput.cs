@@ -56,12 +56,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""HeavyDash"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""067303c1-5925-4e11-98be-4f4fadaea9c1"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": ""MultiTap"",
-                    ""initialStateCheck"": false
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -143,26 +143,37 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""88c81615-51fd-40f6-b2c0-356225f2c419"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""c6ab8224-c69c-47ff-86b3-eebd84febd79"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""MultiTap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""HeavyDash"",
-                    ""isComposite"": false,
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""1e802448-ffae-4d74-82da-f9c7b0b3b740"",
+                    ""name"": ""negative"",
+                    ""id"": ""83452947-d024-44e5-ad28-ad350e11b1cb"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""HeavyDash"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""033a3505-4dc0-4ea6-9e65-152fb24fc832"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HeavyDash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }

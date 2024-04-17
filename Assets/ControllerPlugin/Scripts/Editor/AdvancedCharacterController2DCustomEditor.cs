@@ -15,12 +15,16 @@ namespace ControllerPlugin.Scripts.Editor
         private SerializedProperty _canJumpProperty;
         private SerializedProperty _canAirJumpProperty;
         private SerializedProperty _infiniteAirJumpsProperty;
+        private SerializedProperty _canDashProperty;
+        private SerializedProperty _useDashCoolDownProperty;
 
         protected virtual void OnEnable()
         {
             _canJumpProperty = serializedObject.FindProperty("canJump");
             _canAirJumpProperty = serializedObject.FindProperty("canAirJump");
             _infiniteAirJumpsProperty = serializedObject.FindProperty("infiniteAirJumps");
+            _canDashProperty = serializedObject.FindProperty("canDash");
+            _useDashCoolDownProperty = serializedObject.FindProperty("useDashCoolDown");
             _headerStyle ??= new GUIStyle()
             {
                 fontSize = 14,
@@ -44,6 +48,8 @@ namespace ControllerPlugin.Scripts.Editor
 
                 DrawJumpBlock();
 
+                DrawDashBlock();
+                
                 AdditionalSettings(serializedObject);
                 
                 DrawEventBlock();
@@ -108,7 +114,22 @@ namespace ControllerPlugin.Scripts.Editor
         }
         private void DrawDashBlock()
         {
-            
+            MakeHeader("Dash Settings");
+            EditorGUILayout.BeginVertical("box");
+                
+            EditorGUILayout.PropertyField(_canDashProperty);
+            if (_canDashProperty.boolValue)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("dashSpeed"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("dashDuration"));
+                EditorGUILayout.PropertyField(_useDashCoolDownProperty);
+                if (_useDashCoolDownProperty.boolValue)
+                {
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("dashCoolDown"));
+                }
+            }
+
+            EditorGUILayout.EndVertical();
         }
         private void DrawEventBlock()
         {
@@ -140,6 +161,7 @@ namespace ControllerPlugin.Scripts.Editor
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("currentActionState"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("current2DFacingDirection"));
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("gravity"));
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty("canDashNow"));
                         AdditionalInfos(serializedObject);
                     }
                     EditorGUILayout.EndVertical();

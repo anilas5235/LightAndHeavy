@@ -70,6 +70,7 @@ namespace ControllerPlugin.Scripts
         protected int airJumps;
         protected float maxJumpVelocity;
         protected float minJumpVelocity;
+        protected Vector2 dashDirection;
         #endregion
 
         #region Properties
@@ -239,10 +240,12 @@ namespace ControllerPlugin.Scripts
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             CalculateJumpValues();
         }
+        protected virtual void OnValidate()
+        {
+            CalculateJumpValues();
+        }
 
-        private void OnValidate() => CalculateJumpValues();
-
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             CurrentCharacter2DFacingDirection = None;
             CurrentCharacterActionState = CharacterActionState.Idle;
@@ -318,14 +321,27 @@ namespace ControllerPlugin.Scripts
         {
             var xDirectVal = Mathf.Clamp(inputVector.x, -1, 1);
             var acceleration = OnGround ? maxAcceleration : maxAirAcceleration;
-            var desiredVelocity = Vector2.zero;
-            if (xDirectVal != 0)
+            
+            var desiredVelocity = OnSlope
+                ? capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
+                : Vector2.right * xDirectVal;
+
+            if (CurrentCharacterActionState == CharacterActionState.Dashing)
             {
-                desiredVelocity = OnSlope ? 
-                    capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
-                    : Vector2.right * xDirectVal;
-                desiredVelocity *= CurrentCharacterActionState == CharacterActionState.Dashing ? dashSpeed : maxSpeed;
+                if (OnSlope)
+                {
+                    desiredVelocity *= dashSpeed;
+                }
+                else
+                {
+                    currentVelocity.x = dashDirection.x * dashSpeed;
+                }
             }
+            else
+            {
+                desiredVelocity *= maxSpeed;
+            }
+
             currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, acceleration * Time.fixedDeltaTime);
             if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
         }
@@ -421,14 +437,9 @@ namespace ControllerPlugin.Scripts
 
         protected virtual void OnActionStateChanged(CharacterActionState oldState,CharacterActionState newState)
         {
+            physicsMaterial2D.friction = 0;
             switch (oldState)
             {
-                case CharacterActionState.Idle:
-                    physicsMaterial2D.friction = 0;
-                    break;
-                case CharacterActionState.WallSliding:
-                    physicsMaterial2D.friction = 0;
-                    break;
             }
             switch (newState)
             {
@@ -503,7 +514,14 @@ namespace ControllerPlugin.Scripts
 
         public virtual void DashInput(InputAction.CallbackContext context)
         {
-            if (!dashInput && context.started) dashInput = true;
+            if (canDashNow && context.started)
+            {
+                dashDirection = context.ReadValue<float>() < 0 ? Vector2.left : Vector2.right;
+            }
+            else if(!dashInput && context.performed)
+            {
+                dashInput = true;
+            }
         }
 
         #endregion
