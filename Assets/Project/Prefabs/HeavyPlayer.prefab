@@ -144,7 +144,7 @@ MonoBehaviour:
   canAirJump: 0
   infiniteAirJumps: 0
   maxAirJumps: 0
-  canWallSlide: 1
+  canWallSlide: 0
   maxWallSlidingSpeed: 1.5
   canDash: 1
   dashSpeed: 10
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4461fd4f19c545668a4740095bc63371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayRange: 10
+  detectDistance: 0.05
   layerMask:
     serializedVersion: 2
     m_Bits: 183
