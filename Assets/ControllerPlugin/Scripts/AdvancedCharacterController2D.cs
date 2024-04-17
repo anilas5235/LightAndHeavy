@@ -348,7 +348,7 @@ namespace ControllerPlugin.Scripts
                 desiredVelocity *= 0;
 
             currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, acceleration * Time.fixedDeltaTime);
-            if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
+            if (OnGround && OnSlope || CurrentCharacterActionState == CharacterActionState.Dashing) currVelocity.y = desiredVelocity.y;
         }
 
         #endregion
@@ -517,15 +517,12 @@ namespace ControllerPlugin.Scripts
             input.x = Mathf.RoundToInt(context.ReadValue<float>());
         }
 
-        public virtual void DashInput(InputAction.CallbackContext context)
+        public virtual void DashInput(Vector2 direction)
         {
-            if (canDashNow && context.started)
-            {
-                dashDirection = context.ReadValue<float>() < 0 ? Vector2.left : Vector2.right;
-            }
-            else if(!dashInput && context.performed)
+            if (!dashInput)
             {
                 dashInput = true;
+                dashDirection = direction.normalized;
             }
         }
 

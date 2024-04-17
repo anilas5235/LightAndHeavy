@@ -37,7 +37,7 @@ namespace Project.Scripts.LevelObjects
             if (other.attachedRigidbody)
             {
                 children.Remove(other.gameObject);
-                other.transform.parent = null;
+                if(gameObject.activeSelf)other.transform.parent = null;
             }
         }
 
