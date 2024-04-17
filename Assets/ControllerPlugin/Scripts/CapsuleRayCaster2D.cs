@@ -165,7 +165,9 @@ namespace ControllerPlugin.Scripts
             var oldColor = Gizmos.color;
             
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(_lowerCircleCenterWorld,_trueCapsuleXHalfSize);
+            var pos = _lowerCircleCenterWorld;
+            pos.y -= detectDistance;
+            Gizmos.DrawWireSphere(pos,_trueCapsuleXHalfSize);
             
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(GroundHitPoint,GroundNormal);

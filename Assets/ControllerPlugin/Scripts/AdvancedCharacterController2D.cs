@@ -330,14 +330,8 @@ namespace ControllerPlugin.Scripts
 
             if (CurrentCharacterActionState == CharacterActionState.Dashing)
             {
-                if (OnSlope)
-                {
-                    desiredVelocity *= dashSpeed;
-                }
-                else
-                {
-                    currentVelocity.x = dashDirection.x * dashSpeed;
-                }
+                if (OnSlope) desiredVelocity *= dashSpeed;
+                else currentVelocity = dashDirection * dashSpeed;
             }
             else
             {
@@ -347,8 +341,11 @@ namespace ControllerPlugin.Scripts
             if (OnSlope && SlopeAngle > maxSlopeAngle && Math.Sign(GroundNormal.x) != Math.Sign(inputVector.x))
                 desiredVelocity *= 0;
 
-            currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, acceleration * Time.fixedDeltaTime);
-            if (OnGround && OnSlope || CurrentCharacterActionState == CharacterActionState.Dashing) currVelocity.y = desiredVelocity.y;
+            if (CurrentCharacterActionState == CharacterActionState.Dashing) return;
+            
+            currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, 
+                acceleration * Time.fixedDeltaTime);
+            if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
         }
 
         #endregion

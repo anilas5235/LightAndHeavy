@@ -147,7 +147,7 @@ MonoBehaviour:
   canWallSlide: 0
   maxWallSlidingSpeed: 1.5
   canDash: 1
-  dashSpeed: 10
+  dashSpeed: 7
   dashDuration: 0.5
   useDashCoolDown: 1
   dashCoolDown: 1

@@ -140,7 +140,7 @@ MonoBehaviour:
   canJump: 1
   jumpHeight:
     min: 0.25
-    max: 2
+    max: 1.5
   timeTillApex: 0.75
   canAirJump: 0
   infiniteAirJumps: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
   input: {x: 0, y: 0}
   currentActionState: 0
   current2DFacingDirection: 0
-  gravity: 14.222222
+  gravity: 10.666667
   canDashNow: 0
   onStateChanged:
     m_PersistentCalls:

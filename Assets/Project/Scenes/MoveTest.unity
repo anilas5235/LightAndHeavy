@@ -302,14 +302,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightPlayer
       objectReference: {fileID: 0}
-    - target: {fileID: 9075216779452941981, guid: f21c446c57d65c34b9e9d3bb31138667, type: 3}
-      propertyPath: m_Size.y
-      value: 1.4144038
-      objectReference: {fileID: 0}
-    - target: {fileID: 9075216779452941981, guid: f21c446c57d65c34b9e9d3bb31138667, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.38155657
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1125,26 +1117,6 @@ PrefabInstance:
     - target: {fileID: 4571026618042684391, guid: a36b6d4e263d1084a85d3ca0f9657443, type: 3}
       propertyPath: m_Name
       value: HeavyPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667789870963433751, guid: a36b6d4e263d1084a85d3ca0f9657443, type: 3}
-      propertyPath: dashSpeed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9075216779452941981, guid: a36b6d4e263d1084a85d3ca0f9657443, type: 3}
-      propertyPath: m_Size.x
-      value: 1.0429218
-      objectReference: {fileID: 0}
-    - target: {fileID: 9075216779452941981, guid: a36b6d4e263d1084a85d3ca0f9657443, type: 3}
-      propertyPath: m_Size.y
-      value: 1.0429218
-      objectReference: {fileID: 0}
-    - target: {fileID: 9075216779452941981, guid: a36b6d4e263d1084a85d3ca0f9657443, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.0034247637
-      objectReference: {fileID: 0}
-    - target: {fileID: 9075216779452941981, guid: a36b6d4e263d1084a85d3ca0f9657443, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.09200919
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
