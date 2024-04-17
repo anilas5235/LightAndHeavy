@@ -1,5 +1,5 @@
 using System.Collections;
-using Project.Scripts.Attributes;
+using AttributesLibrary.ReadOnly;
 using Project.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;

@@ -15,6 +15,7 @@ namespace ControllerPlugin.Scripts.Editor
         private SerializedProperty _canJumpProperty;
         private SerializedProperty _canAirJumpProperty;
         private SerializedProperty _infiniteAirJumpsProperty;
+        private SerializedProperty _canWallSlideProperty;
         private SerializedProperty _canDashProperty;
         private SerializedProperty _useDashCoolDownProperty;
 
@@ -23,6 +24,7 @@ namespace ControllerPlugin.Scripts.Editor
             _canJumpProperty = serializedObject.FindProperty("canJump");
             _canAirJumpProperty = serializedObject.FindProperty("canAirJump");
             _infiniteAirJumpsProperty = serializedObject.FindProperty("infiniteAirJumps");
+            _canWallSlideProperty = serializedObject.FindProperty("canWallSlide");
             _canDashProperty = serializedObject.FindProperty("canDash");
             _useDashCoolDownProperty = serializedObject.FindProperty("useDashCoolDown");
             _headerStyle ??= new GUIStyle()
@@ -47,6 +49,8 @@ namespace ControllerPlugin.Scripts.Editor
                 DrawSpeedBlock();
 
                 DrawJumpBlock();
+
+                DrawWallSlideSettings();
 
                 DrawDashBlock();
                 
@@ -108,6 +112,20 @@ namespace ControllerPlugin.Scripts.Editor
                         EditorGUILayout.EndVertical();
                     }
                 }
+            }
+
+            EditorGUILayout.EndVertical();
+        }
+        
+        private void DrawWallSlideSettings()
+        {
+            MakeHeader("WallSlide Settings");
+            EditorGUILayout.BeginVertical("box");
+                
+            EditorGUILayout.PropertyField(_canWallSlideProperty);
+            if (_canWallSlideProperty.boolValue)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("maxWallSlidingSpeed"));
             }
 
             EditorGUILayout.EndVertical();

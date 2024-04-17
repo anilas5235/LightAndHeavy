@@ -1,12 +1,15 @@
-using Project.Scripts.Attributes;
+using System;
+using AttributesLibrary.ReadOnly;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ControllerPlugin.Scripts
 {
     [RequireComponent(typeof(CapsuleCollider2D))]
     public class CapsuleRayCaster2D : MonoBehaviour
     {
-        [SerializeField] private float rayRange = 10;
+        [SerializeField]private float detectDistance = 0.05f;
         [SerializeField] private LayerMask layerMask = int.MaxValue;
         [SerializeField] private int maxHitChecks = 5;
         
@@ -20,25 +23,19 @@ namespace ControllerPlugin.Scripts
         [SerializeField, ReadOnly] private Character2DFacingDirection wallDetection;
         
         private CapsuleCollider2D _capsuleCollider2D;
-
-        private Vector2 _feetRelativeOrigin;
-        private Vector2 _kneeRelativeOrigin;
+        
         private Vector2 _hipRelativeOrigin;
-
-        private Vector2 _feetWorldOrigin;
-        private Vector2 _kneeWorldOrigin;
+        private Vector2 _lowerCircleCenterRelative;
+        
         private Vector2 _hipWorldOrigin;
+        private Vector2 _lowerCircleCenterWorld;
 
-        private float _detectDistance = 0.05f;
+
+        private Vector2 _trueCapsuleSize;
+        private float _trueCapsuleXHalfSize;
+        private float _trueCapsuleYHalfSize;
 
         #region Properties
-
-        public float RayRange
-        {
-            get => rayRange;
-            set => rayRange = Mathf.Clamp(value,0,float.MaxValue);
-        }
-
         public LayerMask LayerMask
         {
             get => layerMask;
@@ -55,15 +52,9 @@ namespace ControllerPlugin.Scripts
         public bool InAir => inAir;
         public bool OnSlope => onSlope;
 
-        public Character2DFacingDirection WallDetection
-        {
-            get => wallDetection;
-            private set
-            {
-                if(wallDetection == value)return;
-                wallDetection = value;
-            }
-        }
+        public Vector2 GroundHitPoint { get; private set; }
+
+        public Character2DFacingDirection WallDetection { get; private set; }
 
         public Vector2 GroundNormal
         {
@@ -85,52 +76,48 @@ namespace ControllerPlugin.Scripts
         
         private void Awake()
         {
-            _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
-            CalculateRelativeOrigins();
+            SetValues();
+        }
+
+        private void SetValues()
+        {
+            _capsuleCollider2D ??= GetComponent<CapsuleCollider2D>();
+           _trueCapsuleSize = _capsuleCollider2D.size * transform.localScale;
+           _trueCapsuleXHalfSize = _trueCapsuleSize.x / 2f;
+           _trueCapsuleYHalfSize = _trueCapsuleSize.y / 2f;
+           
+           CalculateRelativeOrigins();
+           CalculateWorldOrigins();
         }
 
         private void CalculateRelativeOrigins()
         {
-            var size = _capsuleCollider2D.size;
-            _feetRelativeOrigin = new Vector2(0, size.y / 2f - .01f);
-            _kneeRelativeOrigin = new Vector2(0, size.y / 4f);
             _hipRelativeOrigin = Vector2.zero;
+            _lowerCircleCenterRelative = new Vector2(0, _trueCapsuleXHalfSize - _trueCapsuleYHalfSize);
         }
 
         private void CalculateWorldOrigins()
         {
             var worldPosition = (Vector2)_capsuleCollider2D.transform.position + _capsuleCollider2D.offset;
-            _feetWorldOrigin = worldPosition + _feetRelativeOrigin;
-            _kneeWorldOrigin = worldPosition + _kneeRelativeOrigin;
             _hipWorldOrigin = worldPosition + _hipRelativeOrigin;
+            _lowerCircleCenterWorld = worldPosition + _lowerCircleCenterRelative;
         }
 
         public void UpdateAll()
         {
             CalculateWorldOrigins();
 
-            onGround = ShootCapsuleCast(_hipWorldOrigin, Vector2.down, _detectDistance, out var groundResult);
+            onGround = ShootCircleCast(_lowerCircleCenterWorld, Vector2.down, detectDistance,_trueCapsuleXHalfSize ,out var groundResult);
             inAir = !onGround;
+            GroundNormal = groundResult.normal;
+            GroundHitPoint = groundResult.point;
             onSlope = onGround && slopeAngle != 0;
             
-            ShootRayCast(_feetWorldOrigin, Vector2.down, rayRange, out var feetDownResult);
-            ShootRayCast(_feetWorldOrigin, Vector2.right, rayRange, out var feetRightResult);
-            ShootRayCast(_feetWorldOrigin, Vector2.left, rayRange, out var feetLeftResult);
-            
-            ShootRayCast(_kneeWorldOrigin, Vector2.right, rayRange, out var kneeRightResult);
-            ShootRayCast(_kneeWorldOrigin, Vector2.left, rayRange, out var kneeLeftResult);
-            
-            ShootRayCast(_hipWorldOrigin, Vector2.right, rayRange, out var hipRightResult);
-            ShootRayCast(_hipWorldOrigin, Vector2.left, rayRange, out var hipLeftResult);
-
-            var wallDetectDist = _capsuleCollider2D.size.x / 2f + _detectDistance;
-            if (kneeRightResult && kneeRightResult.distance<= wallDetectDist 
-                                && hipRightResult&& hipRightResult.distance<= wallDetectDist )
+            if (ShootCapsuleCast(_hipWorldOrigin,Vector2.right,detectDistance,out var rightWallCheckResult))
             {
                 WallDetection = Character2DFacingDirection.Right;
             }
-            else if(kneeLeftResult && kneeLeftResult.distance<= wallDetectDist 
-                                    && hipLeftResult&& hipLeftResult.distance<= wallDetectDist)
+            else if(ShootCapsuleCast(_hipWorldOrigin,Vector2.left,detectDistance,out var leftWallCheckResult))
             {
                 WallDetection = Character2DFacingDirection.Left;
             }
@@ -138,42 +125,13 @@ namespace ControllerPlugin.Scripts
             {
                 WallDetection = Character2DFacingDirection.None;
             }
-
-            GroundNormal = feetDownResult.normal;
-#if UNITY_EDITOR
-            Debug.DrawRay(feetDownResult.point,GroundNormal,Color.yellow);
-            Debug.DrawRay(feetDownResult.point,GroundNormalPerpendicular,Color.red);
-#endif
         }
-
-        private bool ShootRayCast(Vector2 position,Vector2 direction,float rayDistance, out RaycastHit2D resultHit)
-        {
-            resultHit = default;
-            var hits = new RaycastHit2D[maxHitChecks];
-            Physics2D.RaycastNonAlloc(position,direction,hits,rayDistance,layerMask);
-            foreach (var rayCastHit2D in hits)
-            {
-                if (!rayCastHit2D || rayCastHit2D.collider.isTrigger || rayCastHit2D.collider.gameObject == gameObject)continue;
-                resultHit = rayCastHit2D;
-                break;
-            }
-#if UNITY_EDITOR
-            
-            if(resultHit) Debug.DrawLine(position,resultHit.point,Color.green);
-#endif
-                
-            return resultHit;
-        }
-
         private bool ShootCapsuleCast(Vector2 position, Vector2 direction, float castDistance,
             out RaycastHit2D resultHit)
         {
             resultHit = default;
             var hits = new RaycastHit2D[maxHitChecks];
-            var size = _capsuleCollider2D.size;
-            if (Mathf.Abs(direction.x) < Mathf.Abs(direction.y)) size.x -= .05f;
-            else size.y -= .05f;
-            Physics2D.CapsuleCastNonAlloc(position, size, _capsuleCollider2D.direction, 0, direction, hits,
+            Physics2D.CapsuleCastNonAlloc(position, _trueCapsuleSize, _capsuleCollider2D.direction, 0, direction, hits,
                 castDistance, layerMask);
             foreach (var rayCastHit2D in hits)
             {
@@ -183,6 +141,39 @@ namespace ControllerPlugin.Scripts
                 break;
             }
             return resultHit;
+        }
+
+        private bool ShootCircleCast(Vector2 position, Vector2 direction, float castDistance, float radius,
+            out RaycastHit2D resultHit)
+        {
+            resultHit = default;
+            var hits = new RaycastHit2D[maxHitChecks];
+           
+            Physics2D.CircleCastNonAlloc(position, radius, direction, hits, castDistance, layerMask);
+            foreach (var rayCastHit2D in hits)
+            {
+                if (!rayCastHit2D || rayCastHit2D.collider.isTrigger ||
+                    rayCastHit2D.collider.gameObject == gameObject) continue;
+                resultHit = rayCastHit2D;
+                break;
+            }
+            return resultHit;
+        }
+
+        private void OnDrawGizmos()
+        {
+            var oldColor = Gizmos.color;
+            
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(_lowerCircleCenterWorld,_trueCapsuleXHalfSize);
+            
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(GroundHitPoint,GroundNormal);
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(GroundHitPoint,GroundNormalPerpendicular);
+            
+            Gizmos.color = oldColor;
         }
     }
 }

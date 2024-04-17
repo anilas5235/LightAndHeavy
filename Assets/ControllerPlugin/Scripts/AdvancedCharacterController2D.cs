@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using Project.Scripts.Attributes;
+﻿using System;
+using System.Collections;
+using ControllerPlugin.ReadOnly;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -194,6 +195,7 @@ namespace ControllerPlugin.Scripts
         public bool InAir => capsuleRayCaster2D.InAir;
         public bool OnSlope => capsuleRayCaster2D.OnSlope;
         public float SlopeAngle => capsuleRayCaster2D.SlopeAngle;
+        public Vector2 GroundNormal => capsuleRayCaster2D.GroundNormal;
         public float Gravity
         {
             get => gravity;
@@ -321,7 +323,7 @@ namespace ControllerPlugin.Scripts
         {
             var xDirectVal = Mathf.Clamp(inputVector.x, -1, 1);
             var acceleration = OnGround ? maxAcceleration : maxAirAcceleration;
-            
+
             var desiredVelocity = OnSlope
                 ? capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
                 : Vector2.right * xDirectVal;
@@ -341,6 +343,9 @@ namespace ControllerPlugin.Scripts
             {
                 desiredVelocity *= maxSpeed;
             }
+
+            if (OnSlope && SlopeAngle > maxSlopeAngle && Math.Sign(GroundNormal.x) != Math.Sign(inputVector.x))
+                desiredVelocity *= 0;
 
             currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, acceleration * Time.fixedDeltaTime);
             if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;

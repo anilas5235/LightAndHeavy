@@ -1,8 +1,7 @@
-using Project.Scripts.Attributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace Project.Scripts.Editor.AttributeDrawers
+namespace AttributesLibrary.ReadOnly.Editor
 {
     /// <summary>
     /// This class contain custom drawer for ReadOnly attribute.

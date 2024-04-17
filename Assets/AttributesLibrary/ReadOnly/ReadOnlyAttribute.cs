@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Project.Scripts.Attributes
+namespace AttributesLibrary.ReadOnly
 {
     public class ReadOnlyAttribute : PropertyAttribute { }
 }
