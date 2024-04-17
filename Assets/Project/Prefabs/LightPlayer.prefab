@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9075216779452941981}
   - component: {fileID: 4220492302702689414}
   - component: {fileID: 8623063032241422136}
+  - component: {fileID: 620002700373220097}
   m_Layer: 6
   m_Name: LightPlayer
   m_TagString: Player
@@ -145,13 +146,17 @@ MonoBehaviour:
   maxAirJumps: 0
   canWallSlide: 1
   maxWallSlidingSpeed: 1.5
+  canDash: 1
+  dashSpeed: 10
+  dashDuration: 0.5
+  useDashCoolDown: 1
+  dashCoolDown: 1
   currentVelocity: {x: 0, y: 0}
   input: {x: 0, y: 0}
   currentActionState: 0
   current2DFacingDirection: 0
   gravity: 14.222222
-  maxJumpVelocity: 10.666667
-  minJumpVelocity: 2.6666667
+  canDashNow: 0
   onStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -345,3 +350,24 @@ MonoBehaviour:
   advancedCharacterController2D: {fileID: 1132736520918911441}
   spriteRenderer: {fileID: 3682438410149842582}
   initialDirection: 2
+--- !u!95 &620002700373220097
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571026618042684391}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4fda0be5972c5ed4eb4bea9899238c31, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
