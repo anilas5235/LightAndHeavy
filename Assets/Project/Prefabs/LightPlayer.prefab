@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5502472176251442319}
   - component: {fileID: 9075216779452941981}
   - component: {fileID: 4220492302702689414}
+  - component: {fileID: 8623063032241422136}
   m_Layer: 6
   m_Name: LightPlayer
   m_TagString: Player
@@ -137,7 +138,7 @@ MonoBehaviour:
   canJump: 1
   jumpHeight:
     min: 0.25
-    max: 3
+    max: 2
   timeTillApex: 0.75
   canAirJump: 0
   infiniteAirJumps: 0
@@ -148,9 +149,9 @@ MonoBehaviour:
   input: {x: 0, y: 0}
   currentActionState: 0
   current2DFacingDirection: 0
-  gravity: 21.333334
-  maxJumpVelocity: 16
-  minJumpVelocity: 3.2659864
+  gravity: 14.222222
+  maxJumpVelocity: 10.666667
+  minJumpVelocity: 2.6666667
   onStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -320,11 +321,27 @@ MonoBehaviour:
   rayRange: 10
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 119
   maxHitChecks: 5
   onGround: 0
+  inAir: 0
   onSlope: 0
   groundNormal: {x: 0, y: 0}
   groundNormalPerp: {x: 0, y: 0}
   slopeAngle: 0
   wallDetection: 0
+--- !u!114 &8623063032241422136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571026618042684391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40e1168c9c71fc4dbb21257afecc08b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedCharacterController2D: {fileID: 1132736520918911441}
+  spriteRenderer: {fileID: 3682438410149842582}
+  initialDirection: 2

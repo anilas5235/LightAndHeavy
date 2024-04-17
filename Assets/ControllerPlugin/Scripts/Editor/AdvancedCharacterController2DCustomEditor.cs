@@ -38,7 +38,7 @@ namespace ControllerPlugin.Scripts.Editor
 
             EditorGUILayout.BeginVertical();
             {
-               DrawGeneralBlock();
+                DrawGeneralBlock();
 
                 DrawSpeedBlock();
 
@@ -105,6 +105,10 @@ namespace ControllerPlugin.Scripts.Editor
             }
 
             EditorGUILayout.EndVertical();
+        }
+        private void DrawDashBlock()
+        {
+            
         }
         private void DrawEventBlock()
         {

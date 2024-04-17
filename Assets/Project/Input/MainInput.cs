@@ -55,13 +55,13 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""HeavyJump"",
+                    ""name"": ""HeavyDash"",
                     ""type"": ""Button"",
-                    ""id"": ""56a39e98-a792-44e9-8c64-fd9158deb1d0"",
+                    ""id"": ""067303c1-5925-4e11-98be-4f4fadaea9c1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": true
+                    ""interactions"": ""MultiTap"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -144,12 +144,23 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""652b48d4-250d-42b2-932b-112f7ecd66c8"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""id"": ""88c81615-51fd-40f6-b2c0-356225f2c419"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HeavyJump"",
+                    ""action"": ""HeavyDash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e802448-ffae-4d74-82da-f9c7b0b3b740"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HeavyDash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -163,7 +174,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_KeyBoardPlayer_LightXAxis = m_KeyBoardPlayer.FindAction("LightXAxis", throwIfNotFound: true);
         m_KeyBoardPlayer_HeavyXAxis = m_KeyBoardPlayer.FindAction("HeavyXAxis", throwIfNotFound: true);
         m_KeyBoardPlayer_LightJump = m_KeyBoardPlayer.FindAction("LightJump", throwIfNotFound: true);
-        m_KeyBoardPlayer_HeavyJump = m_KeyBoardPlayer.FindAction("HeavyJump", throwIfNotFound: true);
+        m_KeyBoardPlayer_HeavyDash = m_KeyBoardPlayer.FindAction("HeavyDash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -228,7 +239,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeyBoardPlayer_LightXAxis;
     private readonly InputAction m_KeyBoardPlayer_HeavyXAxis;
     private readonly InputAction m_KeyBoardPlayer_LightJump;
-    private readonly InputAction m_KeyBoardPlayer_HeavyJump;
+    private readonly InputAction m_KeyBoardPlayer_HeavyDash;
     public struct KeyBoardPlayerActions
     {
         private @MainInput m_Wrapper;
@@ -236,7 +247,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @LightXAxis => m_Wrapper.m_KeyBoardPlayer_LightXAxis;
         public InputAction @HeavyXAxis => m_Wrapper.m_KeyBoardPlayer_HeavyXAxis;
         public InputAction @LightJump => m_Wrapper.m_KeyBoardPlayer_LightJump;
-        public InputAction @HeavyJump => m_Wrapper.m_KeyBoardPlayer_HeavyJump;
+        public InputAction @HeavyDash => m_Wrapper.m_KeyBoardPlayer_HeavyDash;
         public InputActionMap Get() { return m_Wrapper.m_KeyBoardPlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -255,9 +266,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @LightJump.started += instance.OnLightJump;
             @LightJump.performed += instance.OnLightJump;
             @LightJump.canceled += instance.OnLightJump;
-            @HeavyJump.started += instance.OnHeavyJump;
-            @HeavyJump.performed += instance.OnHeavyJump;
-            @HeavyJump.canceled += instance.OnHeavyJump;
+            @HeavyDash.started += instance.OnHeavyDash;
+            @HeavyDash.performed += instance.OnHeavyDash;
+            @HeavyDash.canceled += instance.OnHeavyDash;
         }
 
         private void UnregisterCallbacks(IKeyBoardPlayerActions instance)
@@ -271,9 +282,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @LightJump.started -= instance.OnLightJump;
             @LightJump.performed -= instance.OnLightJump;
             @LightJump.canceled -= instance.OnLightJump;
-            @HeavyJump.started -= instance.OnHeavyJump;
-            @HeavyJump.performed -= instance.OnHeavyJump;
-            @HeavyJump.canceled -= instance.OnHeavyJump;
+            @HeavyDash.started -= instance.OnHeavyDash;
+            @HeavyDash.performed -= instance.OnHeavyDash;
+            @HeavyDash.canceled -= instance.OnHeavyDash;
         }
 
         public void RemoveCallbacks(IKeyBoardPlayerActions instance)
@@ -296,6 +307,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnLightXAxis(InputAction.CallbackContext context);
         void OnHeavyXAxis(InputAction.CallbackContext context);
         void OnLightJump(InputAction.CallbackContext context);
-        void OnHeavyJump(InputAction.CallbackContext context);
+        void OnHeavyDash(InputAction.CallbackContext context);
     }
 }

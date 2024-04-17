@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Attributes;
+﻿using System.Collections;
+using Project.Scripts.Attributes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -38,14 +39,23 @@ namespace ControllerPlugin.Scripts
 
         #endregion
 
+        #region Dash
+
+        [SerializeField] private bool canDash = true;
+        [SerializeField,Range(0.01f,50)] private float dashSpeed = 10;
+        [SerializeField,Range(0.01f, 5f)] private float dashDuration = .5f;
+        [SerializeField] private bool useDashCoolDown = true;
+        [SerializeField, Range(0.01f, 20f)] private float dashCoolDown = 1f;
+
+        #endregion
+
         #region InfoVars
         [SerializeField, ReadOnly] private Vector2 currentVelocity;
         [SerializeField, ReadOnly] private Vector2Int input;
         [SerializeField, ReadOnly] private CharacterActionState currentActionState;
         [SerializeField, ReadOnly] private Character2DFacingDirection current2DFacingDirection;
         [SerializeField, ReadOnly] protected float gravity;
-        [SerializeField, ReadOnly] private float maxJumpVelocity;
-        [SerializeField, ReadOnly] private float minJumpVelocity;
+        [SerializeField, ReadOnly] protected bool canDashNow;
         #endregion
 
         #region protetedVars
@@ -56,8 +66,10 @@ namespace ControllerPlugin.Scripts
 
         protected bool jumpCanceledInput;
         protected bool jumpInput;
+        protected bool dashInput;
         protected int airJumps;
-        protected float castDistance = .05f;
+        protected float maxJumpVelocity;
+        protected float minJumpVelocity;
         #endregion
 
         #region Properties
@@ -178,9 +190,8 @@ namespace ControllerPlugin.Scripts
         }
 
         public bool OnGround => capsuleRayCaster2D.OnGround;
-
+        public bool InAir => capsuleRayCaster2D.InAir;
         public bool OnSlope => capsuleRayCaster2D.OnSlope;
-
         public float SlopeAngle => capsuleRayCaster2D.SlopeAngle;
         public float Gravity
         {
@@ -235,6 +246,7 @@ namespace ControllerPlugin.Scripts
         {
             CurrentCharacter2DFacingDirection = None;
             CurrentCharacterActionState = CharacterActionState.Idle;
+            canDashNow = canDash;
         }
         
         #endregion
@@ -246,6 +258,8 @@ namespace ControllerPlugin.Scripts
             capsuleRayCaster2D.UpdateAll();
             
             UpdateStateValues(currentVelocity);
+            
+            if(canDash) HandleDashInput();
 
             ApplyMovement(ref currentVelocity, input);
 
@@ -271,12 +285,34 @@ namespace ControllerPlugin.Scripts
 
         protected virtual void ApplyGravity(ref Vector2 currVelocity)
         {
-           currVelocity.y -= gravity * Time.fixedDeltaTime * (1-physicsMaterial2D.friction);
+            if (InAir && CurrentCharacterActionState != CharacterActionState.Dashing)
+            {
+                currVelocity.y -= gravity * Time.fixedDeltaTime * (1-physicsMaterial2D.friction);
+            }
         }
 
         #endregion
 
         #region Movement
+
+        private void HandleDashInput()
+        {
+            if (dashInput && canDashNow)
+            {
+                dashInput = false;
+                StartCoroutine(Dash());
+            }
+        }
+
+        private IEnumerator Dash()
+        {
+            canDashNow = false;
+            CurrentCharacterActionState = CharacterActionState.Dashing;
+            yield return new WaitForSeconds(dashDuration);
+            CurrentCharacterActionState = CharacterActionState.Idle;
+            if(useDashCoolDown) yield return new WaitForSeconds(dashCoolDown);
+            canDashNow = true;
+        }
 
         protected virtual void ApplyMovement(ref Vector2 currVelocity, Vector2Int inputVector)
         {
@@ -285,14 +321,10 @@ namespace ControllerPlugin.Scripts
             var desiredVelocity = Vector2.zero;
             if (xDirectVal != 0)
             {
-                if (OnSlope)
-                {
-                   desiredVelocity = capsuleRayCaster2D.GroundNormalPerpendicular * (maxSpeed * -xDirectVal); 
-                }
-                else
-                {
-                    desiredVelocity = Vector2.right * (maxSpeed * xDirectVal);
-                }
+                desiredVelocity = OnSlope ? 
+                    capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
+                    : Vector2.right * xDirectVal;
+                desiredVelocity *= CurrentCharacterActionState == CharacterActionState.Dashing ? dashSpeed : maxSpeed;
             }
             currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, acceleration * Time.fixedDeltaTime);
             if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
@@ -355,7 +387,7 @@ namespace ControllerPlugin.Scripts
         #region StatesAndConstraints
         protected virtual void UpdateStateValues(Vector2 currVelocity)
         {
-            current2DFacingDirection = currVelocity.x switch
+            CurrentCharacter2DFacingDirection = currVelocity.x switch
             {
                 < 0 => Left,
                 > 0 => Right,
@@ -365,10 +397,12 @@ namespace ControllerPlugin.Scripts
             switch (CurrentCharacterActionState)
             {
                 case CharacterActionState.Idle:
-                    if (current2DFacingDirection != None)CurrentCharacterActionState = CharacterActionState.Walking;
+                    if (CurrentCharacter2DFacingDirection != None)CurrentCharacterActionState = CharacterActionState.Walking;
+                    JumpTransitionCheck(currentVelocity);
                     break;
                 case CharacterActionState.Walking:
-                    if (current2DFacingDirection == None)CurrentCharacterActionState = CharacterActionState.Idle;
+                    if (CurrentCharacter2DFacingDirection == None)CurrentCharacterActionState = CharacterActionState.Idle;
+                    JumpTransitionCheck(currentVelocity);
                     break;
                 case CharacterActionState.Jumping:
                     WallSlidingTransitionCheck();
@@ -446,6 +480,11 @@ namespace ControllerPlugin.Scripts
             if (OnGround || capsuleRayCaster2D.WallDetection == None) return;
             CurrentCharacterActionState = CharacterActionState.WallSliding;
         }
+
+        private void JumpTransitionCheck(Vector2 currVelocity)
+        {
+            if (InAir && currVelocity.y > 0) CurrentCharacterActionState = CharacterActionState.Jumping;
+        }
         
         #endregion
         
@@ -460,6 +499,11 @@ namespace ControllerPlugin.Scripts
         public virtual void HorizontalInput(InputAction.CallbackContext context)
         {
             input.x = Mathf.RoundToInt(context.ReadValue<float>());
+        }
+
+        public virtual void DashInput(InputAction.CallbackContext context)
+        {
+            if (!dashInput && context.started) dashInput = true;
         }
 
         #endregion

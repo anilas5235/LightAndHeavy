@@ -13,8 +13,8 @@ namespace Project.Scripts.Player
         {
             base.Awake();
             _mainInput = new MainInput();
-            SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyJump,JumpInput);
             SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyXAxis,HorizontalInput);
+            SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyDash,DashInput);
         }
 
         private void OnEnable()

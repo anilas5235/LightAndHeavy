@@ -33,13 +33,13 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "HeavyJump",
+                    "name": "HeavyDash",
                     "type": "Button",
-                    "id": "56a39e98-a792-44e9-8c64-fd9158deb1d0",
+                    "id": "067303c1-5925-4e11-98be-4f4fadaea9c1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": true
+                    "interactions": "MultiTap",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -122,12 +122,23 @@
                 },
                 {
                     "name": "",
-                    "id": "652b48d4-250d-42b2-932b-112f7ecd66c8",
-                    "path": "<Keyboard>/upArrow",
+                    "id": "88c81615-51fd-40f6-b2c0-356225f2c419",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeavyJump",
+                    "action": "HeavyDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e802448-ffae-4d74-82da-f9c7b0b3b740",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeavyDash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

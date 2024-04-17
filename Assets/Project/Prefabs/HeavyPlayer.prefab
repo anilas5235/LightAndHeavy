@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 4240968943962279978}
   - component: {fileID: 3682438410149842582}
   - component: {fileID: 3286986626585590258}
-  - component: {fileID: 1538721199216920068}
   - component: {fileID: 7667789870963433751}
   - component: {fileID: 1391896169844228190}
+  - component: {fileID: 9075216779452941981}
+  - component: {fileID: 4220492302702689414}
+  - component: {fileID: 2874896569356113932}
   m_Layer: 7
   m_Name: HeavyPlayer
   m_TagString: Player
@@ -115,8 +117,70 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &1538721199216920068
-BoxCollider2D:
+--- !u!114 &7667789870963433751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571026618042684391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9cf6c75c8540bdaa595652f11a5695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravityScale: 4
+  maxSlopeAngle: 45
+  maxSpeed: 4
+  maxFallSpeed: 6
+  maxAcceleration: 35
+  maxAirAcceleration: 20
+  canJump: 0
+  jumpHeight:
+    min: 0.25
+    max: 3
+  timeTillApex: 1
+  canAirJump: 0
+  infiniteAirJumps: 0
+  maxAirJumps: 0
+  canWallSlide: 1
+  maxWallSlidingSpeed: 1.5
+  currentVelocity: {x: 0, y: 0}
+  input: {x: 0, y: 0}
+  currentActionState: 0
+  current2DFacingDirection: 0
+  gravity: 24
+  maxJumpVelocity: 24
+  minJumpVelocity: 3.4641016
+  onStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onFacingDirectionChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!95 &1391896169844228190
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571026618042684391}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 705fd4f3bd9c1ac4bae05e5a319f5599, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!70 &9075216779452941981
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -147,20 +211,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.22, y: 0.18}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &7667789870963433751
+  m_Offset: {x: 0, y: -0.1}
+  m_Size: {x: 1.1, y: 1.1}
+  m_Direction: 0
+--- !u!114 &4220492302702689414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,47 +223,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 4571026618042684391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e9cf6c75c8540bdaa595652f11a5695, type: 3}
+  m_Script: {fileID: 11500000, guid: 4461fd4f19c545668a4740095bc63371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundLayers:
+  rayRange: 10
+  layerMask:
     serializedVersion: 2
-    m_Bits: 119
-  maxSpeed: 4
-  maxFallSpeed: 6
-  maxAcceleration: 35
-  maxAirAcceleration: 20
-  gravityScale: 1
-  canJump: 0
-  maxJumpHeight: 3
-  minJumpHeight: 0.25
-  timeTillApex: 1
-  maxAirJumps: 0
-  velocity: {x: 0, y: 0}
-  input: {x: 0, y: 0}
+    m_Bits: 183
+  maxHitChecks: 5
   onGround: 0
-  isJumping: 0
-  maxJumpVelocity: 0
-  minJumpVelocity: 0
-  defaultGravityScale: 0
---- !u!95 &1391896169844228190
-Animator:
-  serializedVersion: 5
+  inAir: 0
+  onSlope: 0
+  groundNormal: {x: 0, y: 0}
+  groundNormalPerp: {x: 0, y: 0}
+  slopeAngle: 0
+  wallDetection: 0
+--- !u!114 &2874896569356113932
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4571026618042684391}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 705fd4f3bd9c1ac4bae05e5a319f5599, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40e1168c9c71fc4dbb21257afecc08b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedCharacterController2D: {fileID: 7667789870963433751}
+  spriteRenderer: {fileID: 3682438410149842582}
+  initialDirection: 2

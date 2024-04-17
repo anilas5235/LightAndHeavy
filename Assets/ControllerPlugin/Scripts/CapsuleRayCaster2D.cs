@@ -12,6 +12,7 @@ namespace ControllerPlugin.Scripts
         
         [Header("Info")]
         [SerializeField, ReadOnly] private bool onGround;
+        [SerializeField, ReadOnly] private bool inAir;
         [SerializeField, ReadOnly] private bool onSlope;
         [SerializeField, ReadOnly] private Vector2 groundNormal;
         [SerializeField, ReadOnly] private Vector2 groundNormalPerp;
@@ -51,7 +52,7 @@ namespace ControllerPlugin.Scripts
         }
 
         public bool OnGround => onGround;
-
+        public bool InAir => inAir;
         public bool OnSlope => onSlope;
 
         public Character2DFacingDirection WallDetection
@@ -109,6 +110,7 @@ namespace ControllerPlugin.Scripts
             CalculateWorldOrigins();
 
             onGround = ShootCapsuleCast(_hipWorldOrigin, Vector2.down, _detectDistance, out var groundResult);
+            inAir = !onGround;
             onSlope = onGround && slopeAngle != 0;
             
             ShootRayCast(_feetWorldOrigin, Vector2.down, rayRange, out var feetDownResult);
