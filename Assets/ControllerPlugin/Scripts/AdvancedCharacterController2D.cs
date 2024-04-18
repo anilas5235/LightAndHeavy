@@ -68,6 +68,7 @@ namespace ControllerPlugin.Scripts
         protected bool jumpCanceledInput;
         protected bool jumpInput;
         protected bool dashInput;
+        protected bool dashInprogress;
         protected int airJumps;
         protected float maxJumpVelocity;
         protected float minJumpVelocity;
@@ -305,16 +306,21 @@ namespace ControllerPlugin.Scripts
             if (dashInput && canDashNow)
             {
                 dashInput = false;
+                CurrentCharacterActionState = CharacterActionState.Dashing;
                 StartCoroutine(Dash());
+            }
+            else if(CurrentCharacterActionState == CharacterActionState.Dashing && !dashInprogress)
+            {
+                CurrentCharacterActionState = CharacterActionState.Idle;
             }
         }
 
         private IEnumerator Dash()
         {
             canDashNow = false;
-            CurrentCharacterActionState = CharacterActionState.Dashing;
+            dashInprogress = true;
             yield return new WaitForSeconds(dashDuration);
-            CurrentCharacterActionState = CharacterActionState.Idle;
+            dashInprogress = false;
             if(useDashCoolDown) yield return new WaitForSeconds(dashCoolDown);
             canDashNow = true;
         }

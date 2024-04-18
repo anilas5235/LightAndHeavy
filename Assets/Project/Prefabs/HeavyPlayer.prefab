@@ -148,7 +148,7 @@ MonoBehaviour:
   maxWallSlidingSpeed: 1.5
   canDash: 1
   dashSpeed: 7
-  dashDuration: 0.5
+  dashDuration: 0.3
   useDashCoolDown: 1
   dashCoolDown: 1
   currentVelocity: {x: 0, y: 0}

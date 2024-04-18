@@ -54,11 +54,12 @@ namespace Project.Scripts.LevelObjects
         {
             State = triggers.Any(trigger => trigger.State);
             if(moveRoutine != null)StopCoroutine(moveRoutine);
-            StartCoroutine(PlatformMove(State));
+            moveRoutine = StartCoroutine(PlatformMove(State));
         }
         private IEnumerator PlatformMove(bool rise)
         {
-            targetPoint = rise ? worldPoints[0].position : worldPoints[^1].position;
+            targetPoint = rise ? worldPoints[Math.Clamp(currentIndex+1,0,worldPoints.Length-1)].position : 
+                worldPoints[Math.Clamp(currentIndex-1,0,worldPoints.Length-1)].position;
             var done=false;
             do
             {
