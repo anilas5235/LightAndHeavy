@@ -1135,10 +1135,6 @@ PrefabInstance:
       propertyPath: activator.Array.data[0]
       value: 
       objectReference: {fileID: 1261385130}
-    - target: {fileID: 3422311711573079051, guid: 74d86416197cd664cb6a3c7d0deb223e, type: 3}
-      propertyPath: m_ForceMagnitude
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5316591634631357568, guid: 74d86416197cd664cb6a3c7d0deb223e, type: 3}
       propertyPath: m_Name
       value: Fan

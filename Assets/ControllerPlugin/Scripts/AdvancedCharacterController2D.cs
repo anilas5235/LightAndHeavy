@@ -442,6 +442,20 @@ namespace ControllerPlugin.Scripts
             physicsMaterial2D.friction = 0;
             switch (oldState)
             {
+                case CharacterActionState.Idle:
+                    break;
+                case CharacterActionState.Walking:
+                    break;
+                case CharacterActionState.Jumping:
+                    break;
+                case CharacterActionState.Falling:
+                    break;
+                case CharacterActionState.WallSliding:
+                    break;
+                case CharacterActionState.Dashing:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(oldState), oldState, null);
             }
             switch (newState)
             {
