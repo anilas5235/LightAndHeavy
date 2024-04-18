@@ -49,7 +49,6 @@ namespace Project.Scripts.LevelObjects
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                //if(other.transform.position.y > transform.position.y + _collider2D.offset.y) return;
                 var direction = other.transform.position.x - (transform.position.x + _collider2D.offset.x);
                 var playerDirection = other.gameObject.GetComponent<AdvancedCharacterController2D>()
                     .CurrentCharacter2DFacingDirection;

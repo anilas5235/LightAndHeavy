@@ -423,10 +423,12 @@ namespace ControllerPlugin.Scripts
                 case CharacterActionState.Idle:
                     if (CurrentCharacter2DFacingDirection != None)CurrentCharacterActionState = CharacterActionState.Walking;
                     JumpTransitionCheck(currentVelocity);
+                    FallingTransitionCheck(currentVelocity);
                     break;
                 case CharacterActionState.Walking:
                     if (CurrentCharacter2DFacingDirection == None)CurrentCharacterActionState = CharacterActionState.Idle;
                     JumpTransitionCheck(currentVelocity);
+                    FallingTransitionCheck(currentVelocity);
                     break;
                 case CharacterActionState.Jumping:
                     WallSlidingTransitionCheck();
@@ -504,7 +506,12 @@ namespace ControllerPlugin.Scripts
             {
                 if(capsuleRayCaster2D.WallDetection == None)CurrentCharacterActionState = CharacterActionState.Falling;
             }
-            else if (!OnGround && currentVelocity.y < 0) CurrentCharacterActionState = CharacterActionState.Falling;
+            else if (!OnGround && currentVelocity.y < 0){ CurrentCharacterActionState = CharacterActionState.Falling;}
+            else if(SlopeAngle > maxSlopeAngle)
+            {
+                if (canWallSlide) CurrentCharacterActionState = CharacterActionState.WallSliding;
+                else CurrentCharacterActionState = CharacterActionState.Falling;
+            }
         }
 
         private void WallSlidingTransitionCheck()
