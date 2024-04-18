@@ -35,21 +35,21 @@ namespace Project.Scripts.LevelObjects
             transform.localRotation = Quaternion.Lerp(transform.localRotation,Quaternion.Euler(0,0,currentAngleTarget),.01f);
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             MakeAngleStep(other);
         }
 
-        private void OnCollisionStay2D(Collision2D other)
+        private void OnTriggerStay2D(Collider2D other)
         {
             MakeAngleStep(other);
         }
 
-        private void MakeAngleStep(Collision2D other)
+        private void MakeAngleStep(Collider2D other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                if(other.transform.position.y > transform.position.y + _collider2D.offset.y) return;
+                //if(other.transform.position.y > transform.position.y + _collider2D.offset.y) return;
                 var direction = other.transform.position.x - (transform.position.x + _collider2D.offset.x);
                 var playerDirection = other.gameObject.GetComponent<AdvancedCharacterController2D>()
                     .CurrentCharacter2DFacingDirection;
