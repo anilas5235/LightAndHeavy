@@ -10,10 +10,12 @@ namespace Project.Scripts.LevelObjects
     
         private static readonly int On = Animator.StringToHash("On");
 
-        private void Awake()
+        protected override void OnEnable()
         {
-            StateChanged(false);
+            base.OnEnable();
+            StateChanged(State);
         }
+
         protected override void StateChanged(bool newState)
         {
             base.StateChanged(newState);
