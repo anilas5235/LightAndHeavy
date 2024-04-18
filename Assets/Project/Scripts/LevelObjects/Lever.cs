@@ -1,6 +1,8 @@
 using System;
 using AttributesLibrary.ReadOnly;
+using ControllerPlugin.Scripts;
 using UnityEngine;
+using static ControllerPlugin.Scripts.Character2DFacingDirection;
 
 namespace Project.Scripts.LevelObjects
 {
@@ -10,6 +12,9 @@ namespace Project.Scripts.LevelObjects
         [SerializeField,Range(0,90)] private float maxAngle = 30;
         [SerializeField,Range(.5f,20f)] private float angleStep = .5f;
         [SerializeField,ReadOnly] private float currentAngleTarget;
+        [SerializeField,ReadOnly]private float originalAngle;
+        [SerializeField,ReadOnly]private float usedMinAngle;
+        [SerializeField,ReadOnly]private float usedMaxAngle;
 
         private Collider2D _collider2D;
 
@@ -18,7 +23,10 @@ namespace Project.Scripts.LevelObjects
         private void Awake()
         {
             _collider2D = GetComponent<Collider2D>();
-            currentAngleTarget = State ? minAngle : maxAngle;
+            originalAngle = transform.localRotation.eulerAngles.z;
+            usedMinAngle = minAngle + originalAngle;
+            usedMaxAngle = maxAngle + originalAngle;
+            currentAngleTarget = State ? usedMinAngle : usedMaxAngle;
         }
 
         private void Update()
@@ -43,22 +51,30 @@ namespace Project.Scripts.LevelObjects
             {
                 if(other.transform.position.y > transform.position.y + _collider2D.offset.y) return;
                 var direction = other.transform.position.x - (transform.position.x + _collider2D.offset.x);
-                if (direction < 0) currentAngleTarget -= angleStep;
-                else currentAngleTarget += angleStep;
+                var playerDirection = other.gameObject.GetComponent<AdvancedCharacterController2D>()
+                    .CurrentCharacter2DFacingDirection;
+                if (Mathf.Sign(direction) > 0 && playerDirection == Left)
+                {
+                    currentAngleTarget += angleStep;
+                }
+                else if (Mathf.Sign(direction) < 0 && playerDirection == Right)
+                {
+                    currentAngleTarget -= angleStep;
+                }
                 UpdateAngle();
             }
         }
 
         private void UpdateAngle()
         {
-            currentAngleTarget = Mathf.Clamp(currentAngleTarget, minAngle, maxAngle);
+            currentAngleTarget = Mathf.Clamp(currentAngleTarget, usedMinAngle, usedMaxAngle);
             if (State)
             {
-                if(Math.Abs(currentAngleTarget - maxAngle) < AngleTolerance) State = false;
+                if(Math.Abs(currentAngleTarget - usedMaxAngle) < AngleTolerance) State = false;
             }
             else
             {
-                if(Math.Abs(currentAngleTarget - minAngle) < AngleTolerance) State = true;
+                if(Math.Abs(currentAngleTarget - usedMinAngle) < AngleTolerance) State = true;
             }
         }
     }

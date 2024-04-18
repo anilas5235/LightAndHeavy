@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityScale: 4
-  maxSlopeAngle: 45
+  maxSlopeAngle: 50
   maxSpeed: 4
   maxFallSpeed: 6
   maxAcceleration: 35

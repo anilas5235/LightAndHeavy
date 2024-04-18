@@ -54,7 +54,11 @@ namespace ControllerPlugin.Scripts
 
         public Vector2 GroundHitPoint { get; private set; }
 
-        public Character2DFacingDirection WallDetection { get; private set; }
+        public Character2DFacingDirection WallDetection
+        {
+            get => wallDetection;
+            private set => wallDetection = value;
+        }
 
         public Vector2 GroundNormal
         {

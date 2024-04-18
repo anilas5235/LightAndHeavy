@@ -1,3 +1,4 @@
+using System;
 using ControllerPlugin.Scripts;
 using Project.Scripts.Interfaces;
 using Project.Scripts.LevelObjects;
@@ -28,6 +29,18 @@ namespace Project.Scripts.Player
         private void OnDisable()
         {
            _mainInput?.Disable();
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Canon"))
+            {
+                var canonComp = other.gameObject.GetComponent<Canon>();
+                canonComp.enabled = true;
+                canonComp.EnableInput();
+                canonComp.User = this;
+                gameObject.SetActive(false);
+            }
         }
 
         public ElementType GetElementType()
