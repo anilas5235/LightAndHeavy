@@ -232,6 +232,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   buttonHeight: 0.1
-  spriteRenderer: {fileID: 7218172621021556598}
+  buttonSpriteRenderer: {fileID: 7218172621021556598}
   inActiveColor: {r: 0.8301887, g: 0.41201955, b: 0, a: 1}
   activeColor: {r: 0.3752211, g: 0.9716981, b: 0, a: 1}

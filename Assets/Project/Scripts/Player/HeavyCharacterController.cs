@@ -22,12 +22,12 @@ namespace Project.Scripts.Player
         protected override void OnEnable()
         {
             base.OnEnable();
-            _mainInput.Enable();
+            _mainInput?.Enable();
         }
 
         private void OnDisable()
         {
-           _mainInput.Disable();
+           _mainInput?.Disable();
         }
 
         public ElementType GetElementType()

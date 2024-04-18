@@ -111,7 +111,7 @@ namespace ControllerPlugin.Scripts
             inAir = !onGround;
             GroundNormal = groundResult.normal;
             GroundHitPoint = groundResult.point;
-            onSlope = onGround && slopeAngle != 0;
+            onSlope = onGround && groundResult.point.y <= _lowerCircleCenterWorld.y && slopeAngle != 0;
             
             if (ShootCapsuleCast(_hipWorldOrigin,Vector2.right,detectDistance,out var rightWallCheckResult))
             {
