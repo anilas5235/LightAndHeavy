@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Project.Scripts.LevelObjects
 {
     public class WeightButton : BoolInteractable
     {
         [Space,SerializeField,Range(.001f,5f)] private float buttonHeight = .3f;
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private SpriteRenderer buttonSpriteRenderer;
         [SerializeField] private Color inActiveColor= Color.white;
         [SerializeField] private Color activeColor=Color.white;
 
@@ -15,8 +16,8 @@ namespace Project.Scripts.LevelObjects
 
         private void Awake()
         {
-            _spriteTransform = spriteRenderer.transform;
-            spriteRenderer.color = inActiveColor;
+            _spriteTransform = buttonSpriteRenderer.transform;
+            buttonSpriteRenderer.color = inActiveColor;
             _startHeight = _spriteTransform.localPosition.y;
         }
 
@@ -33,7 +34,7 @@ namespace Project.Scripts.LevelObjects
             if (other.gameObject.CompareTag("Player"))
             {
                 State = true;
-                spriteRenderer.color = activeColor;
+                buttonSpriteRenderer.color = activeColor;
                 _targetHeight = _startHeight -buttonHeight;
             }
         }
@@ -43,7 +44,7 @@ namespace Project.Scripts.LevelObjects
             if (other.gameObject.CompareTag("Player"))
             {
                 State = false;
-                spriteRenderer.color = inActiveColor;
+                buttonSpriteRenderer.color = inActiveColor;
                 _targetHeight = _startHeight;
             }
         }

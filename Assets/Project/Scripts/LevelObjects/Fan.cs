@@ -1,60 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Project.Scripts.LevelObjects;
 using UnityEngine;
 
-public class Fan : MonoBehaviour
+namespace Project.Scripts.LevelObjects
 {
-    [SerializeField] private BoxCollider2D boxCollider2D;
-    [SerializeField] private AreaEffector2D areaEffector2D;
-    [SerializeField] private Animator animator;
-
-    [SerializeField] private BoolInteractable[] activator;
-    private static readonly int On = Animator.StringToHash("On");
-
-    private void OnEnable()
+    public class Fan : BoolInteractable
     {
-        foreach (BoolInteractable boolInteractable in activator)
+        [SerializeField] private BoxCollider2D boxCollider2D;
+        [SerializeField] private AreaEffector2D areaEffector2D;
+        [SerializeField] private Animator animator;
+    
+        private static readonly int On = Animator.StringToHash("On");
+
+        private void Awake()
         {
-            boolInteractable.onStateChange.AddListener(_stateChange);
+            StateChanged(false);
         }
-    }
-
-    private void OnDisable()
-    {
-        foreach (BoolInteractable boolInteractable in activator)
+        protected override void StateChanged(bool newState)
         {
-            boolInteractable.onStateChange.RemoveListener(_stateChange);
+            base.StateChanged(newState);
+            boxCollider2D.enabled = newState;
+            areaEffector2D.enabled = newState;
+            animator.SetBool(On, newState);
         }
-    }
-
-    private void Awake()
-    {
-        _stateChange(false);
-    }
-
-    private void _stateChange(bool arg0)
-    {
-        boxCollider2D.enabled = arg0;
-        areaEffector2D.enabled = arg0;
-        animator.SetBool(On, arg0);
-    }
-
-    
-
-    
-
-    
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

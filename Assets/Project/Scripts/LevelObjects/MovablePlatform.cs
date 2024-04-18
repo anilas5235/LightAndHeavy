@@ -9,19 +9,12 @@ namespace Project.Scripts.LevelObjects
     public class MovablePlatform : BoolInteractable
     {
         [SerializeField] private Transform[] worldPoints;
-
-        [SerializeField] private BoolInteractable[] triggers;
         [SerializeField] private float speed = 5;
        
         private Vector3 targetPoint;
         private int currentIndex;
         private Coroutine moveRoutine;
         private List<GameObject> children = new List<GameObject>();
-     
-        private void OnEnable()
-        {
-            foreach (var trigger in triggers)trigger.onStateChange.AddListener(CheckTriggers);
-        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -41,18 +34,16 @@ namespace Project.Scripts.LevelObjects
             }
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
-            foreach (var child in children)
-            {
-                child.transform.parent = null;
-            }
-            foreach (var trigger in triggers)trigger.onStateChange.RemoveListener(CheckTriggers);
+            base.OnDisable();
+            foreach (var child in children) child.transform.parent = null;
+            
         }
 
-        private void CheckTriggers(bool arg0)
+        protected override void StateChanged(bool newState)
         {
-            State = triggers.Any(trigger => trigger.State);
+            base.StateChanged(newState);
             if(moveRoutine != null)StopCoroutine(moveRoutine);
             moveRoutine = StartCoroutine(PlatformMove(State));
         }
