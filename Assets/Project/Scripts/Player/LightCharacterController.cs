@@ -18,14 +18,15 @@ namespace Project.Scripts.Player
             SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.LightXAxis,HorizontalInput);
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            _mainInput.Enable();
+            base.OnEnable();
+            _mainInput?.Enable();
         }
 
         private void OnDisable()
         {
-            _mainInput.Disable();
+            _mainInput?.Disable();
         }
 
         public ElementType GetElementType()

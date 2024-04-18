@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7af9762e553c7164e8bd6cb44b250377
+guid: 0d7ff453bcd444f40b956f70da3f662f
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Copyduck
+  - Karma
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

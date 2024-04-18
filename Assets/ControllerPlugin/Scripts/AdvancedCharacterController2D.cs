@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using Project.Scripts.Attributes;
+﻿using System;
+using System.Collections;
+using ControllerPlugin.ReadOnly;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -67,9 +68,11 @@ namespace ControllerPlugin.Scripts
         protected bool jumpCanceledInput;
         protected bool jumpInput;
         protected bool dashInput;
+        protected bool dashInprogress;
         protected int airJumps;
         protected float maxJumpVelocity;
         protected float minJumpVelocity;
+        protected Vector2 dashDirection;
         #endregion
 
         #region Properties
@@ -193,6 +196,7 @@ namespace ControllerPlugin.Scripts
         public bool InAir => capsuleRayCaster2D.InAir;
         public bool OnSlope => capsuleRayCaster2D.OnSlope;
         public float SlopeAngle => capsuleRayCaster2D.SlopeAngle;
+        public Vector2 GroundNormal => capsuleRayCaster2D.GroundNormal;
         public float Gravity
         {
             get => gravity;
@@ -239,10 +243,12 @@ namespace ControllerPlugin.Scripts
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             CalculateJumpValues();
         }
+        protected virtual void OnValidate()
+        {
+            CalculateJumpValues();
+        }
 
-        private void OnValidate() => CalculateJumpValues();
-
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             CurrentCharacter2DFacingDirection = None;
             CurrentCharacterActionState = CharacterActionState.Idle;
@@ -300,16 +306,21 @@ namespace ControllerPlugin.Scripts
             if (dashInput && canDashNow)
             {
                 dashInput = false;
+                CurrentCharacterActionState = CharacterActionState.Dashing;
                 StartCoroutine(Dash());
+            }
+            else if(CurrentCharacterActionState == CharacterActionState.Dashing && !dashInprogress)
+            {
+                CurrentCharacterActionState = CharacterActionState.Idle;
             }
         }
 
         private IEnumerator Dash()
         {
             canDashNow = false;
-            CurrentCharacterActionState = CharacterActionState.Dashing;
+            dashInprogress = true;
             yield return new WaitForSeconds(dashDuration);
-            CurrentCharacterActionState = CharacterActionState.Idle;
+            dashInprogress = false;
             if(useDashCoolDown) yield return new WaitForSeconds(dashCoolDown);
             canDashNow = true;
         }
@@ -318,15 +329,28 @@ namespace ControllerPlugin.Scripts
         {
             var xDirectVal = Mathf.Clamp(inputVector.x, -1, 1);
             var acceleration = OnGround ? maxAcceleration : maxAirAcceleration;
-            var desiredVelocity = Vector2.zero;
-            if (xDirectVal != 0)
+
+            var desiredVelocity = OnSlope
+                ? capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
+                : Vector2.right * xDirectVal;
+
+            if (CurrentCharacterActionState == CharacterActionState.Dashing)
             {
-                desiredVelocity = OnSlope ? 
-                    capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
-                    : Vector2.right * xDirectVal;
-                desiredVelocity *= CurrentCharacterActionState == CharacterActionState.Dashing ? dashSpeed : maxSpeed;
+                if (OnSlope) desiredVelocity *= dashSpeed;
+                else currentVelocity = dashDirection * dashSpeed;
             }
-            currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, acceleration * Time.fixedDeltaTime);
+            else
+            {
+                desiredVelocity *= maxSpeed;
+            }
+
+            if (OnSlope && SlopeAngle > maxSlopeAngle && Math.Sign(GroundNormal.x) != Math.Sign(inputVector.x))
+                desiredVelocity *= 0;
+
+            if (CurrentCharacterActionState == CharacterActionState.Dashing) return;
+            
+            currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, 
+                acceleration * Time.fixedDeltaTime);
             if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
         }
 
@@ -421,14 +445,23 @@ namespace ControllerPlugin.Scripts
 
         protected virtual void OnActionStateChanged(CharacterActionState oldState,CharacterActionState newState)
         {
+            physicsMaterial2D.friction = 0;
             switch (oldState)
             {
                 case CharacterActionState.Idle:
-                    physicsMaterial2D.friction = 0;
+                    break;
+                case CharacterActionState.Walking:
+                    break;
+                case CharacterActionState.Jumping:
+                    break;
+                case CharacterActionState.Falling:
                     break;
                 case CharacterActionState.WallSliding:
-                    physicsMaterial2D.friction = 0;
                     break;
+                case CharacterActionState.Dashing:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(oldState), oldState, null);
             }
             switch (newState)
             {
@@ -501,9 +534,13 @@ namespace ControllerPlugin.Scripts
             input.x = Mathf.RoundToInt(context.ReadValue<float>());
         }
 
-        public virtual void DashInput(InputAction.CallbackContext context)
+        public virtual void DashInput(Vector2 direction)
         {
-            if (!dashInput && context.started) dashInput = true;
+            if (!dashInput)
+            {
+                dashInput = true;
+                dashDirection = direction.normalized;
+            }
         }
 
         #endregion

@@ -1,5 +1,5 @@
 using System;
-using Project.Scripts.Attributes;
+using AttributesLibrary.ReadOnly;
 using UnityEngine;
 
 namespace Project.Scripts.LevelObjects

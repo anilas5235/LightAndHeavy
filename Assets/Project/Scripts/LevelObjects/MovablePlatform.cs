@@ -9,19 +9,12 @@ namespace Project.Scripts.LevelObjects
     public class MovablePlatform : BoolInteractable
     {
         [SerializeField] private Transform[] worldPoints;
-
-        [SerializeField] private BoolInteractable[] triggers;
         [SerializeField] private float speed = 5;
        
         private Vector3 targetPoint;
         private int currentIndex;
         private Coroutine moveRoutine;
         private List<GameObject> children = new List<GameObject>();
-     
-        private void OnEnable()
-        {
-            foreach (var trigger in triggers)trigger.onStateChange.AddListener(CheckTriggers);
-        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -37,28 +30,27 @@ namespace Project.Scripts.LevelObjects
             if (other.attachedRigidbody)
             {
                 children.Remove(other.gameObject);
-                other.transform.parent = null;
+                if(gameObject.activeSelf)other.transform.parent = null;
             }
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
-            foreach (var child in children)
-            {
-                child.transform.parent = null;
-            }
-            foreach (var trigger in triggers)trigger.onStateChange.RemoveListener(CheckTriggers);
+            base.OnDisable();
+            foreach (var child in children) child.transform.parent = null;
+            
         }
 
-        private void CheckTriggers(bool arg0)
+        protected override void StateChanged(bool newState)
         {
-            State = triggers.Any(trigger => trigger.State);
+            base.StateChanged(newState);
             if(moveRoutine != null)StopCoroutine(moveRoutine);
-            StartCoroutine(PlatformMove(State));
+            moveRoutine = StartCoroutine(PlatformMove(State));
         }
         private IEnumerator PlatformMove(bool rise)
         {
-            targetPoint = rise ? worldPoints[0].position : worldPoints[^1].position;
+            targetPoint = rise ? worldPoints[Math.Clamp(currentIndex+1,0,worldPoints.Length-1)].position : 
+                worldPoints[Math.Clamp(currentIndex-1,0,worldPoints.Length-1)].position;
             var done=false;
             do
             {
