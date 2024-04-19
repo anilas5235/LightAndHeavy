@@ -213,7 +213,7 @@ MonoBehaviour:
   detectDistance: 0.05
   layerMask:
     serializedVersion: 2
-    m_Bits: 321
+    m_Bits: 337
   maxHitChecks: 5
   onGround: 0
   inAir: 0
