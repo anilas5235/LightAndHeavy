@@ -4,78 +4,48 @@ using ControllerPlugin.ReadOnly;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using static ControllerPlugin.Scripts.Character2DFacingDirection;
 
 namespace ControllerPlugin.Scripts
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleRayCaster2D)),DisallowMultipleComponent]
+    [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleRayCaster2D)), DisallowMultipleComponent]
     public class AdvancedCharacterController2D : MonoBehaviour
     {
-        #region GeneralVars
+
         [SerializeField, Range(0.01f, 10f)] private float gravityScale = 1f;
         [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 45f;
-        #endregion
 
-        #region SpeedVars
-        [SerializeField, Range(0.01f, 50f)] protected float maxSpeed = 4f;
-        [SerializeField, Range(0.01f, 50f)] private float maxFallSpeed = 20f;
-        [SerializeField, Range(0.01f, 50f)] private float maxAcceleration = 15f;
-        [SerializeField, Range(0.01f, 50f)] private float maxAirAcceleration = 8f;
-        #endregion
+        [SerializeField] protected SpeedParameters speedSettings;
 
-        #region JumpVars
-        [SerializeField] private bool canJump = true;
-        [SerializeField] private FloatMinMax jumpHeight = new() { max = 3f, min = .25f };
-        [SerializeField, Range(0f, 3f)] private float timeTillApex = .6f;
+        [SerializeField] protected JumpHandler jumpSettings;
 
-        [SerializeField] private bool canAirJump;
-        [SerializeField] private bool infiniteAirJumps;
-        [SerializeField, Range(0, 15)] private int maxAirJumps = 1;
-        #endregion
+        [SerializeField] protected WallSlideParameters wallSlideSettings;
 
-        #region WallSliding
-
-        [SerializeField] private bool canWallSlide = true;
-        [SerializeField, Range(0.01f, 50f)] private float maxWallSlidingSpeed = 1.5f;
-
-        #endregion
-
-        #region Dash
-
-        [SerializeField] private bool canDash = true;
-        [SerializeField,Range(0.01f,50)] private float dashSpeed = 10;
-        [SerializeField,Range(0.01f, 5f)] private float dashDuration = .5f;
-        [SerializeField] private bool useDashCoolDown = true;
-        [SerializeField, Range(0.01f, 20f)] private float dashCoolDown = 1f;
-
-        #endregion
+        [SerializeField] protected DashHandler dashSettings;
 
         #region InfoVars
-        [SerializeField, ReadOnly] private Vector2 currentVelocity;
-        [SerializeField, ReadOnly] private Vector2Int input;
+
+        [SerializeField, ReadOnly] protected Vector2 currentVelocity;
+        [SerializeField, ReadOnly] protected Vector2Int input;
         [SerializeField, ReadOnly] private CharacterActionState currentActionState;
         [SerializeField, ReadOnly] private Character2DFacingDirection current2DFacingDirection;
         [SerializeField, ReadOnly] protected float gravity;
-        [SerializeField, ReadOnly] protected bool canDashNow;
+
         #endregion
 
         #region protetedVars
+
         protected Rigidbody2D rigidBody2D;
         protected CapsuleCollider2D capsuleCollider2D;
         protected PhysicsMaterial2D physicsMaterial2D;
         protected CapsuleRayCaster2D capsuleRayCaster2D;
 
-        protected bool jumpCanceledInput;
-        protected bool jumpInput;
-        protected bool dashInput;
-        protected bool dashInprogress;
-        protected int airJumps;
-        protected float maxJumpVelocity;
-        protected float minJumpVelocity;
-        protected Vector2 dashDirection;
+        protected CharacterInputState jumpInput;
+        protected CharacterInputState dashInput;
+
         #endregion
 
         #region Properties
+
         public CharacterActionState CurrentCharacterActionState
         {
             get => currentActionState;
@@ -84,8 +54,8 @@ namespace ControllerPlugin.Scripts
                 if (currentActionState == value) return;
                 var old = currentActionState;
                 currentActionState = value;
-                OnActionStateChanged(old,currentActionState);
-                onStateChanged?.Invoke(old,currentActionState);
+                OnActionStateChanged(old, currentActionState);
+                onStateChanged?.Invoke(old, currentActionState);
             }
         }
 
@@ -106,126 +76,109 @@ namespace ControllerPlugin.Scripts
             set
             {
                 gravityScale = value;
-                CalculateJumpValues();
+                gravity = jumpSettings.CalculateGravityWithJumpValues(gravityScale);
             }
         }
 
         public float MaxSlopeAngle
         {
             get => maxSlopeAngle;
-            set => maxSlopeAngle = Mathf.Clamp(value,0,90);
+            set => maxSlopeAngle = Mathf.Clamp(value, 0, 90);
         }
 
         public float MaxSpeed
         {
-            get => maxSpeed;
-            set => maxSpeed = value;
+            get => speedSettings.maxSpeed;
+            set => speedSettings.maxSpeed = value;
         }
 
         public float MaxFallSpeed
         {
-            get => maxFallSpeed;
-            set => maxFallSpeed = value;
+            get => speedSettings.maxFallSpeed;
+            set => speedSettings.maxFallSpeed = value;
         }
 
         public float MaxAcceleration
         {
-            get => maxAcceleration;
-            set => maxAcceleration = value;
+            get => speedSettings.maxAcceleration;
+            set => speedSettings.maxAcceleration = value;
         }
 
         public float MaxAirAcceleration
         {
-            get => maxAirAcceleration;
-            set => maxAirAcceleration = value;
+            get => speedSettings.maxAirAcceleration;
+            set => speedSettings.maxAirAcceleration = value;
         }
 
         public bool CanJump
         {
-            get => canJump;
-            set => canJump = value;
+            get => jumpSettings.canJump;
+            set => jumpSettings.canJump = value;
         }
 
         public FloatMinMax JumpHeight
         {
-            get => jumpHeight;
+            get => jumpSettings.jumpHeight;
             set
             {
-                jumpHeight = value;
-                CalculateJumpValues();
+                jumpSettings.jumpHeight = value;
+                UpdateGravity();
             }
         }
 
         public float TimeTillApex
         {
-            get => timeTillApex;
+            get => jumpSettings.timeTillApex;
             set
             {
-                timeTillApex = value;
-                CalculateJumpValues();
+                jumpSettings.timeTillApex = value;
+                UpdateGravity();
             }
         }
 
         public bool CanAirJump
         {
-            get => canAirJump;
-            set => canAirJump = value;
+            get => jumpSettings.canAirJump;
+            set => jumpSettings.canAirJump = value;
         }
 
         public bool InfiniteAirJumps
         {
-            get => infiniteAirJumps;
-            set => infiniteAirJumps = value;
+            get => jumpSettings.infiniteAirJumps;
+            set => jumpSettings.infiniteAirJumps = value;
         }
 
         public int MaxAirJumps
         {
-            get => maxAirJumps;
-            set => maxAirJumps = value;
+            get => jumpSettings.maxAirJumps;
+            set => jumpSettings.maxAirJumps = value;
         }
 
         public Vector2 CurrentVelocity => currentVelocity;
-
-        public Vector2Int Input
-        {
-            get => input;
-            protected set => input = value;
-        }
 
         public bool OnGround => capsuleRayCaster2D.OnGround;
         public bool InAir => capsuleRayCaster2D.InAir;
         public bool OnSlope => capsuleRayCaster2D.OnSlope;
         public float SlopeAngle => capsuleRayCaster2D.SlopeAngle;
         public Vector2 GroundNormal => capsuleRayCaster2D.GroundNormal;
+
         public float Gravity
         {
             get => gravity;
             protected set => gravity = value;
         }
 
-        public float MaxJumpVelocity
-        {
-            get => maxJumpVelocity;
-            protected set => maxJumpVelocity = value;
-        }
-
-        public float MinJumpVelocity
-        {
-            get => minJumpVelocity;
-            protected set => minJumpVelocity = value;
-        }
-        public int AirJumps => airJumps;
-        
         #endregion
 
         #region Events
 
-        public UnityEvent<CharacterActionState,CharacterActionState> onStateChanged;
+        public UnityEvent<CharacterActionState, CharacterActionState> onStateChanged;
         public UnityEvent<Character2DFacingDirection> onFacingDirectionChanged;
 
         #endregion
 
         #region AwakeValidateEnable
+
         protected virtual void Awake()
         {
             rigidBody2D = GetComponent<Rigidbody2D>();
@@ -241,35 +194,40 @@ namespace ControllerPlugin.Scripts
             rigidBody2D.angularDrag = 0;
             rigidBody2D.drag = 0;
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-            CalculateJumpValues();
+            UpdateGravity();
         }
+
         protected virtual void OnValidate()
         {
-            CalculateJumpValues();
+            UpdateGravity();
+        }
+
+        private void UpdateGravity()
+        {
+            gravity = jumpSettings.CalculateGravityWithJumpValues(gravityScale);
         }
 
         protected virtual void OnEnable()
         {
-            CurrentCharacter2DFacingDirection = None;
+            CurrentCharacter2DFacingDirection = Character2DFacingDirection.None;
             CurrentCharacterActionState = CharacterActionState.Idle;
-            canDashNow = canDash;
         }
-        
+
         #endregion
 
         protected void FixedUpdate()
         {
             currentVelocity = rigidBody2D.velocity;
-            
+
             capsuleRayCaster2D.UpdateAll();
-            
+
             UpdateStateValues(currentVelocity);
-            
-            if(canDash) HandleDashInput();
 
-            ApplyMovement(ref currentVelocity, input);
+            if (dashSettings.canDash) HandleDashInput();
 
-            if (canJump) HandleJumpInput(ref currentVelocity);
+            HandleMovementInput(ref currentVelocity, input);
+
+            if (jumpSettings.canJump) HandleJumpInput(ref currentVelocity);
 
             ApplyGravity(ref currentVelocity);
 
@@ -282,53 +240,37 @@ namespace ControllerPlugin.Scripts
 
         #region Gravity
 
-        protected virtual void CalculateJumpValues()
-        {
-            gravity = 2 * jumpHeight.max / Mathf.Pow(timeTillApex, 2) * gravityScale;
-            maxJumpVelocity = Mathf.Abs(gravity) * timeTillApex;
-            minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * jumpHeight.min);
-        }
-
         protected virtual void ApplyGravity(ref Vector2 currVelocity)
         {
-            if (InAir && CurrentCharacterActionState != CharacterActionState.Dashing)
+            if (CurrentCharacterActionState != CharacterActionState.Dashing)
             {
-                currVelocity.y -= gravity * Time.fixedDeltaTime * (1-physicsMaterial2D.friction);
+                currVelocity.y -= gravity * Time.fixedDeltaTime * (1 - physicsMaterial2D.friction);
             }
         }
 
         #endregion
 
-        #region Movement
+        #region HandleInput
 
-        private void HandleDashInput()
+        protected virtual void HandleDashInput()
         {
-            if (dashInput && canDashNow)
+            if (dashInput != CharacterInputState.None && dashSettings.CanDashNow)
             {
-                dashInput = false;
+                StartCoroutine(Dash(dashSettings));
                 CurrentCharacterActionState = CharacterActionState.Dashing;
-                StartCoroutine(Dash());
+                dashInput = CharacterInputState.None;
             }
-            else if(CurrentCharacterActionState == CharacterActionState.Dashing && !dashInprogress)
+            else if (CurrentCharacterActionState == CharacterActionState.Dashing &&
+                     dashSettings.currentDashState == DashState.Ready)
             {
                 CurrentCharacterActionState = CharacterActionState.Idle;
             }
         }
 
-        private IEnumerator Dash()
-        {
-            canDashNow = false;
-            dashInprogress = true;
-            yield return new WaitForSeconds(dashDuration);
-            dashInprogress = false;
-            if(useDashCoolDown) yield return new WaitForSeconds(dashCoolDown);
-            canDashNow = true;
-        }
-
-        protected virtual void ApplyMovement(ref Vector2 currVelocity, Vector2Int inputVector)
+        protected virtual void HandleMovementInput(ref Vector2 currVelocity, Vector2Int inputVector)
         {
             var xDirectVal = Mathf.Clamp(inputVector.x, -1, 1);
-            var acceleration = OnGround ? maxAcceleration : maxAirAcceleration;
+            var acceleration = speedSettings.GetAcceleration(OnGround);
 
             var desiredVelocity = OnSlope
                 ? capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
@@ -336,97 +278,62 @@ namespace ControllerPlugin.Scripts
 
             if (CurrentCharacterActionState == CharacterActionState.Dashing)
             {
-                if (OnSlope) desiredVelocity *= dashSpeed;
-                else currentVelocity = dashDirection * dashSpeed;
+                if (OnSlope) desiredVelocity *= dashSettings.DashSpeed;
+                else currentVelocity = dashSettings.DashVector;
             }
             else
             {
-                desiredVelocity *= maxSpeed;
+                desiredVelocity *= speedSettings.maxSpeed;
             }
 
             if (OnSlope && SlopeAngle > maxSlopeAngle && Math.Sign(GroundNormal.x) != Math.Sign(inputVector.x))
                 desiredVelocity *= 0;
 
             if (CurrentCharacterActionState == CharacterActionState.Dashing) return;
-            
-            currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x, 
+
+            currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x,
                 acceleration * Time.fixedDeltaTime);
             if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
         }
 
-        #endregion
-
-        #region JumpFunctions
-        protected virtual void HandleJumpInput(ref Vector2 currVelocity)
+        protected void HandleJumpInput(ref Vector2 currVelocity)
         {
-            if (jumpInput)
+            if (jumpInput == CharacterInputState.Triggered)
             {
-                jumpInput = false;
-                jumpCanceledInput = false;
-                switch (CurrentCharacterActionState)
-                {
-                    case CharacterActionState.Jumping:
-                    case CharacterActionState.Falling:
-                        if (!canAirJump || airJumps >= maxAirJumps) break;
-                        if(!infiniteAirJumps)++airJumps;
-                        CurrentCharacterActionState = CharacterActionState.Jumping;
-                        HandleAirJump(ref currVelocity);
-                        break;
-                    case CharacterActionState.WallSliding:
-                        break;
-                    case CharacterActionState.Dashing:
-                        break;
-                    default:
-                        if (!OnGround) break;
-                        CurrentCharacterActionState = CharacterActionState.Jumping;
-                        airJumps = 0;
-                        HandleNewJump(ref currVelocity);
-                        break;
-                }
+                jumpSettings.Jump(CurrentCharacterActionState, OnGround, ref currentVelocity);
+                jumpInput = CharacterInputState.None;
             }
-            else if (jumpCanceledInput && CurrentCharacterActionState == CharacterActionState.Jumping)
+            else if (jumpInput == CharacterInputState.Canceled)
             {
-                jumpCanceledInput = false;
-                HandleJumpCanceled(ref currVelocity);
+                jumpSettings.CancelJump(CurrentCharacterActionState, ref currVelocity);
+                jumpInput = CharacterInputState.None;
             }
-        }
-
-        protected virtual void HandleNewJump(ref Vector2 currVelocity)
-        {
-            currVelocity.y = maxJumpVelocity;
-        }
-
-        protected virtual void HandleAirJump(ref Vector2 currVelocity)
-        {
-            currVelocity.y = maxJumpVelocity;
-        }
-
-        protected virtual void HandleJumpCanceled(ref Vector2 currVelocity)
-        {
-            if (currVelocity.y > minJumpVelocity) currVelocity.y = minJumpVelocity;
         }
 
         #endregion
 
         #region StatesAndConstraints
+
         protected virtual void UpdateStateValues(Vector2 currVelocity)
         {
             CurrentCharacter2DFacingDirection = currVelocity.x switch
             {
-                < 0 => Left,
-                > 0 => Right,
-                _ => None
+                < 0 => Character2DFacingDirection.Left,
+                > 0 => Character2DFacingDirection.Right,
+                _ => Character2DFacingDirection.None
             };
 
             switch (CurrentCharacterActionState)
             {
                 case CharacterActionState.Idle:
-                    if (CurrentCharacter2DFacingDirection != None)CurrentCharacterActionState = CharacterActionState.Walking;
+                    if (CurrentCharacter2DFacingDirection != Character2DFacingDirection.None)
+                        CurrentCharacterActionState = CharacterActionState.Walking;
                     JumpTransitionCheck(currentVelocity);
                     FallingTransitionCheck(currentVelocity);
                     break;
                 case CharacterActionState.Walking:
-                    if (CurrentCharacter2DFacingDirection == None)CurrentCharacterActionState = CharacterActionState.Idle;
+                    if (CurrentCharacter2DFacingDirection == Character2DFacingDirection.None)
+                        CurrentCharacterActionState = CharacterActionState.Idle;
                     JumpTransitionCheck(currentVelocity);
                     FallingTransitionCheck(currentVelocity);
                     break;
@@ -442,10 +349,14 @@ namespace ControllerPlugin.Scripts
                     GroundTransitionCheck();
                     FallingTransitionCheck(currentVelocity);
                     break;
+                case CharacterActionState.Dashing:
+                    if (dashSettings.currentDashState != DashState.Dashing)
+                        CurrentCharacterActionState = CharacterActionState.Idle;
+                    break;
             }
         }
 
-        protected virtual void OnActionStateChanged(CharacterActionState oldState,CharacterActionState newState)
+        protected virtual void OnActionStateChanged(CharacterActionState oldState, CharacterActionState newState)
         {
             physicsMaterial2D.friction = 0;
             switch (oldState)
@@ -462,9 +373,8 @@ namespace ControllerPlugin.Scripts
                     break;
                 case CharacterActionState.Dashing:
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(oldState), oldState, null);
             }
+
             switch (newState)
             {
                 case CharacterActionState.Idle:
@@ -481,43 +391,51 @@ namespace ControllerPlugin.Scripts
             switch (CurrentCharacterActionState)
             {
                 case CharacterActionState.Falling:
-                    if (currVelocity.y < -maxFallSpeed) currVelocity.y = -maxFallSpeed;
+                    if (currVelocity.y < -speedSettings.maxFallSpeed) currVelocity.y = -speedSettings.maxFallSpeed;
                     break;
                 case CharacterActionState.WallSliding:
-                    if(currVelocity.y < -maxWallSlidingSpeed) currVelocity.y = -maxWallSlidingSpeed;
+                    if (currVelocity.y < -wallSlideSettings.maxWallSlidingSpeed) currVelocity.y = -wallSlideSettings.maxWallSlidingSpeed;
                     break;
             }
-            
-            if(!OnSlope && OnGround && currVelocity.y < 0)currVelocity.y = 0;
+
+            if (!OnSlope && OnGround && currVelocity.y < 0) currVelocity.y = 0;
         }
 
         private void GroundTransitionCheck()
         {
-            if (!OnGround || capsuleRayCaster2D.WallDetection != None) return;
-                
-            CurrentCharacterActionState = CurrentCharacter2DFacingDirection == None
-                ? CharacterActionState.Idle
-                : CharacterActionState.Walking;
+            if (OnGround)
+            {
+                CurrentCharacterActionState = CurrentCharacter2DFacingDirection == Character2DFacingDirection.None
+                    ? CharacterActionState.Idle
+                    : CharacterActionState.Walking;
+            }
         }
 
+        #endregion
+        
+        #region TransitionChecks
         private void FallingTransitionCheck(Vector2 currVelocity)
         {
             if (CurrentCharacterActionState == CharacterActionState.WallSliding)
             {
-                if(capsuleRayCaster2D.WallDetection == None)CurrentCharacterActionState = CharacterActionState.Falling;
+                if (capsuleRayCaster2D.WallDetection == Character2DFacingDirection.None)
+                    CurrentCharacterActionState = CharacterActionState.Falling;
             }
-            else if (!OnGround && currentVelocity.y < 0){ CurrentCharacterActionState = CharacterActionState.Falling;}
-            else if(SlopeAngle > maxSlopeAngle)
+            else if (!OnGround && currVelocity.y < 0)
             {
-                if (canWallSlide) CurrentCharacterActionState = CharacterActionState.WallSliding;
+                CurrentCharacterActionState = CharacterActionState.Falling;
+            }
+            else if (SlopeAngle > maxSlopeAngle)
+            {
+                if (wallSlideSettings.canWallSlide) CurrentCharacterActionState = CharacterActionState.WallSliding;
                 else CurrentCharacterActionState = CharacterActionState.Falling;
             }
         }
 
         private void WallSlidingTransitionCheck()
         {
-            if(!canWallSlide) return;
-            if (OnGround || capsuleRayCaster2D.WallDetection == None) return;
+            if (!wallSlideSettings.canWallSlide) return;
+            if (OnGround || capsuleRayCaster2D.WallDetection == Character2DFacingDirection.None) return;
             CurrentCharacterActionState = CharacterActionState.WallSliding;
         }
 
@@ -525,15 +443,18 @@ namespace ControllerPlugin.Scripts
         {
             if (InAir && currVelocity.y > 0) CurrentCharacterActionState = CharacterActionState.Jumping;
         }
-        
+
         #endregion
-        
+
         #region Input
 
         public virtual void JumpInput(InputAction.CallbackContext context)
         {
-            if (!jumpInput && context.started) jumpInput = true;
-            if (!jumpCanceledInput && context.canceled) jumpCanceledInput = true;
+            if (jumpInput == CharacterInputState.None)
+            {
+                if (context.started) jumpInput = CharacterInputState.Triggered;
+                else if (context.canceled) jumpInput = CharacterInputState.Canceled;
+            }
         }
 
         public virtual void HorizontalInput(InputAction.CallbackContext context)
@@ -541,13 +462,37 @@ namespace ControllerPlugin.Scripts
             input.x = Mathf.RoundToInt(context.ReadValue<float>());
         }
 
-        public virtual void DashInput(Vector2 direction)
+        public void DashInput(Vector2 direction)
         {
-            if (!dashInput)
+            if (dashInput == CharacterInputState.None)
             {
-                dashInput = true;
-                dashDirection = direction.normalized;
+                dashInput = CharacterInputState.Triggered;
+                dashSettings.useOverrideParams = false;
+                dashSettings.dashParams.direction = direction;
             }
+        }
+
+        public void DashInput(DashParams dashParams)
+        {
+            if (dashInput == CharacterInputState.None)
+            {
+                dashInput = CharacterInputState.Triggered;
+                dashSettings.useOverrideParams = true;
+                dashSettings.overrideParams = dashParams;
+            }
+        }
+
+        #endregion
+
+        #region Coroutines
+
+        private static IEnumerator Dash(DashHandler dashHandler)
+        {
+            dashHandler.currentDashState = DashState.Dashing;
+            yield return new WaitForSeconds(dashHandler.DashDuration);
+            dashHandler.currentDashState = DashState.CoolDown;
+            if (dashHandler.UseDashCoolDown) yield return new WaitForSeconds(dashHandler.DashCoolDown);
+            dashHandler.currentDashState = DashState.Ready;
         }
 
         #endregion

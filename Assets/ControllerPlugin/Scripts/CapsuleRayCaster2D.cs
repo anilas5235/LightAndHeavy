@@ -111,7 +111,7 @@ namespace ControllerPlugin.Scripts
         {
             CalculateWorldOrigins();
 
-            onGround = ShootCircleCast(_lowerCircleCenterWorld, Vector2.down, detectDistance,_trueCapsuleXHalfSize ,out var groundResult);
+            onGround = ShootCapsuleCast(_hipWorldOrigin, Vector2.down, detectDistance,out var groundResult);
             inAir = !onGround;
             GroundNormal = groundResult.normal;
             GroundHitPoint = groundResult.point;
@@ -147,31 +147,12 @@ namespace ControllerPlugin.Scripts
             return resultHit;
         }
 
-        private bool ShootCircleCast(Vector2 position, Vector2 direction, float castDistance, float radius,
-            out RaycastHit2D resultHit)
-        {
-            resultHit = default;
-            var hits = new RaycastHit2D[maxHitChecks];
-           
-            Physics2D.CircleCastNonAlloc(position, radius, direction, hits, castDistance, layerMask);
-            foreach (var rayCastHit2D in hits)
-            {
-                if (!rayCastHit2D || rayCastHit2D.collider.isTrigger ||
-                    rayCastHit2D.collider.gameObject == gameObject) continue;
-                resultHit = rayCastHit2D;
-                break;
-            }
-            return resultHit;
-        }
-
         private void OnDrawGizmos()
         {
             var oldColor = Gizmos.color;
             
-            Gizmos.color = Color.magenta;
-            var pos = _lowerCircleCenterWorld;
-            pos.y -= detectDistance;
-            Gizmos.DrawWireSphere(pos,_trueCapsuleXHalfSize);
+            Gizmos.color =Color.magenta;
+            Gizmos.DrawSphere(GroundHitPoint,.05f);
             
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(GroundHitPoint,GroundNormal);

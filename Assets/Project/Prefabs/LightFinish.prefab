@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementType: 0
-  doorHeight: 1.3
+  doorHeight: 1.7
   doorSprite: {fileID: 3846960510146687675}
   timeToOpen: 1.5
   detectedPlayer: 0

@@ -132,31 +132,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityScale: 2
   maxSlopeAngle: 50
-  maxSpeed: 4
-  maxFallSpeed: 30
-  maxAcceleration: 35
-  maxAirAcceleration: 20
-  canJump: 1
-  jumpHeight:
-    min: 0.25
-    max: 1.5
-  timeTillApex: 0.75
-  canAirJump: 0
-  infiniteAirJumps: 0
-  maxAirJumps: 0
-  canWallSlide: 0
-  maxWallSlidingSpeed: 1.5
-  canDash: 0
-  dashSpeed: 0
-  dashDuration: 0
-  useDashCoolDown: 0
-  dashCoolDown: 0
+  speedSettings:
+    maxSpeed: 4
+    maxFallSpeed: 20
+    maxAcceleration: 15
+    maxAirAcceleration: 8
+  jumpSettings:
+    canJump: 1
+    jumpHeight:
+      min: 0.25
+      max: 1.5
+    timeTillApex: 0.6
+    canAirJump: 0
+    infiniteAirJumps: 0
+    maxAirJumps: 1
+    maxJumpVelocity: 10
+    minJumpVelocity: 2.8867512
+  wallSlideSettings:
+    canWallSlide: 0
+    maxWallSlidingSpeed: 1.5
+  dashSettings:
+    canDash: 0
+    dashParams:
+      dashSpeed: 6
+      dashDuration: 0.3
+      useDashCoolDown: 1
+      dashCoolDown: 1
+      direction: {x: 0, y: 0}
+    currentDashState: 0
+    useOverrideParams: 0
+    overrideParams:
+      dashSpeed: 6
+      dashDuration: 0.3
+      useDashCoolDown: 1
+      dashCoolDown: 1
+      direction: {x: 0, y: 0}
   currentVelocity: {x: 0, y: 0}
   input: {x: 0, y: 0}
   currentActionState: 0
   current2DFacingDirection: 0
-  gravity: 10.666667
-  canDashNow: 0
+  gravity: 16.666666
   onStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -195,8 +210,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.42435467}
-  m_Size: {x: 1, y: 1.5}
+  m_Offset: {x: 0, y: -0.40004444}
+  m_Size: {x: 1, y: 1.2922587}
   m_Direction: 0
 --- !u!114 &4220492302702689414
 MonoBehaviour:

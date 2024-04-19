@@ -31,18 +31,6 @@ namespace Project.Scripts.Player
            _mainInput?.Disable();
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.CompareTag("Canon"))
-            {
-                var canonComp = other.gameObject.GetComponent<Canon>();
-                canonComp.enabled = true;
-                canonComp.EnableInput();
-                canonComp.User = this;
-                gameObject.SetActive(false);
-            }
-        }
-
         public ElementType GetElementType()
         {
             return ElementType.Heavy;

@@ -19,6 +19,13 @@ namespace ControllerPlugin.Scripts
         Left
     }
 
+    public enum CharacterInputState : byte
+    {
+        None,
+        Triggered,
+        Canceled,
+    }
+
     [Serializable]
     public struct FloatMinMax
     {

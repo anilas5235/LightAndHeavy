@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using AttributesLibrary.ReadOnly;
 using ControllerPlugin.Scripts;
-using Project.Scripts.Utilities;
+using Project.Scripts.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Project.Scripts.Utilities.InputSystemUtility;
 
 namespace Project.Scripts.LevelObjects
 {
@@ -14,20 +16,25 @@ namespace Project.Scripts.LevelObjects
         [Space,SerializeField,Range(-90,0)] private float minAngle = -30;
         [SerializeField,Range(0,90)] private float maxAngle = 30;
         [SerializeField,Range(.5f,20f)] private float angleStep = .5f;
-        [SerializeField,ReadOnly] private float currentAngleTarget;
+        [SerializeField,Range(1, 30)] private float canonStrength = 8;
+        [SerializeField,Range(1, 30)] private float shootDuration = 2;
+        [SerializeField] private Transform tipTransform;
+        [SerializeField] private SpriteRenderer tippLine;
+        
+        
+        [Header("info"),SerializeField,ReadOnly] private float currentAngleTarget;
         [SerializeField,ReadOnly] private float originalAngle;
         [SerializeField,ReadOnly] private float usedMinAngle;
         [SerializeField,ReadOnly] private float usedMaxAngle;
         [SerializeField, ReadOnly] private AdvancedCharacterController2D user;
-        
-        public AdvancedCharacterController2D User
-        {
-            get => user;
-            set => user = value;
-        }
+        [SerializeField, ReadOnly] private bool readyForUse = true;
         
         private MainInput _mainInput;
-        private Vector2Int input;
+        private Vector2Int _input;
+        private const float coolDown = 1;
+        private float _lineLength;
+        
+        private static readonly int Tiling = Shader.PropertyToID("_Tiling");
 
         private void Awake()
         {
@@ -35,11 +42,30 @@ namespace Project.Scripts.LevelObjects
             usedMinAngle = minAngle + originalAngle;
             usedMaxAngle = maxAngle + originalAngle;
             _mainInput = new MainInput();
-            InputSystemUtility.SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyXAxis, InputAxis);
+            SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyXAxis, InputAxis);
+            _lineLength = canonStrength * (shootDuration / 10f);
+            var lineTransform = tippLine.transform;
+            var scale = lineTransform.localScale;
+            scale.x = _lineLength / 2f;
+            lineTransform.localScale = scale;
+            tippLine.material.SetFloat(Tiling,_lineLength*3);
+            tippLine.enabled = false;
         }
-        public void EnableInput()
+
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            _mainInput?.Enable();
+            if (other.gameObject.CompareTag("Player") && readyForUse && user == null)
+            {
+                var comp = other.gameObject.GetComponent<HeavyCharacterController>();
+                if (comp)
+                {
+                    _mainInput.Enable();
+                    user = comp;
+                    comp.gameObject.SetActive(false);
+                    tippLine.enabled = true;
+                }
+                readyForUse = true;
+            }
         }
 
         protected override void OnDisable()
@@ -50,20 +76,36 @@ namespace Project.Scripts.LevelObjects
 
         protected override void StateChanged(bool newState)
         {
-            if (newState && user != null)
+            if (newState && user != null && readyForUse)
             {
                 Shoot();
+                _mainInput.Disable();
+                tippLine.enabled = false;
             }
         }
 
         private void Shoot()
         {
-            print("shoot");
+            var player = user.gameObject;
+            var tipPosition = tipTransform.position;
+            player.SetActive(true);
+            player.transform.position = tipPosition;
+            var dashParams = new DashParams()
+            {
+                direction = (tipPosition - transform.position).normalized,
+                dashSpeed = canonStrength,
+                dashDuration = shootDuration/10f,
+                useDashCoolDown = false,
+            };
+            user.DashInput(dashParams);
+            readyForUse = false;
+            user = null;
+            StartCoroutine(CoolDown(coolDown));
         }
 
         private void InputAxis(InputAction.CallbackContext obj)
         {
-            input.x = Mathf.RoundToInt(obj.ReadValue<float>());
+            _input.x = Mathf.RoundToInt(obj.ReadValue<float>());
         }
         private void Update()
         {
@@ -72,8 +114,20 @@ namespace Project.Scripts.LevelObjects
         }
         private void FixedUpdate()
         {
-            currentAngleTarget += angleStep * -input.x;
+            currentAngleTarget += angleStep * -_input.x;
             currentAngleTarget = Mathf.Clamp(currentAngleTarget, usedMinAngle, usedMaxAngle);
+        }
+
+        private IEnumerator CoolDown(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            readyForUse = true;
+        }
+
+        private void OnDrawGizmos()
+        {
+            var tipPosition = tipTransform.position;
+            Gizmos.DrawRay(tipPosition,(tipPosition - transform.position).normalized * _lineLength);
         }
     }
 }

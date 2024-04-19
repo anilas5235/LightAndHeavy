@@ -132,31 +132,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityScale: 4
   maxSlopeAngle: 50
-  maxSpeed: 4
-  maxFallSpeed: 6
-  maxAcceleration: 35
-  maxAirAcceleration: 20
-  canJump: 0
-  jumpHeight:
-    min: 0.25
-    max: 3
-  timeTillApex: 1
-  canAirJump: 0
-  infiniteAirJumps: 0
-  maxAirJumps: 0
-  canWallSlide: 0
-  maxWallSlidingSpeed: 1.5
-  canDash: 1
-  dashSpeed: 7
-  dashDuration: 0.3
-  useDashCoolDown: 1
-  dashCoolDown: 1
+  speedSettings:
+    maxSpeed: 4
+    maxFallSpeed: 20
+    maxAcceleration: 15
+    maxAirAcceleration: 8
+  jumpSettings:
+    canJump: 0
+    jumpHeight:
+      min: 0.25
+      max: 1.5
+    timeTillApex: 0.6
+    canAirJump: 0
+    infiniteAirJumps: 0
+    maxAirJumps: 1
+    maxJumpVelocity: 20
+    minJumpVelocity: 4.082483
+  wallSlideSettings:
+    canWallSlide: 0
+    maxWallSlidingSpeed: 1.5
+  dashSettings:
+    canDash: 1
+    dashParams:
+      dashSpeed: 6
+      dashDuration: 0.3
+      useDashCoolDown: 1
+      dashCoolDown: 1
+      direction: {x: 0, y: 0}
+    currentDashState: 0
+    useOverrideParams: 0
+    overrideParams:
+      dashSpeed: 6
+      dashDuration: 0.3
+      useDashCoolDown: 1
+      dashCoolDown: 1
+      direction: {x: 0, y: 0}
   currentVelocity: {x: 0, y: 0}
   input: {x: 0, y: 0}
   currentActionState: 0
   current2DFacingDirection: 0
-  gravity: 24
-  canDashNow: 0
+  gravity: 33.333332
   onStateChanged:
     m_PersistentCalls:
       m_Calls: []
