@@ -270,7 +270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4527269508756456006, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5221915048903188472, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
       propertyPath: transitionLevel

@@ -2495,6 +2495,10 @@ PrefabInstance:
       propertyPath: transitionLevel
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3696759827439003347, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4088448839105255650, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
       propertyPath: m_Name
       value: WinLose
