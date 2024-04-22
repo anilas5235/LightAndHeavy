@@ -13,7 +13,7 @@ namespace ControllerPlugin.Scripts
 
         [SerializeField, Range(0.01f, 10f)] private float gravityScale = 1f;
         [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 45f;
-        [SerializeField] protected bool slideWay = true;
+        [SerializeField] protected bool slipWay;
 
         [SerializeField] protected SpeedParameters speedSettings;
 
@@ -280,7 +280,7 @@ namespace ControllerPlugin.Scripts
                 desiredVelocity = capsuleRayCaster2D.GroundNormalPerpendicular * (xDirectVal * speedSettings.maxSpeed);
                 if (OnSlope && SlopeAngle > maxSlopeAngle && Math.Sign(GroundNormal.x) != Math.Sign(inputVector.x))
                 {
-                    desiredVelocity = slideWay ? capsuleRayCaster2D.GroundNormalPerpendicular * (speedSettings.maxSpeed * .5f * GroundNormal.x)
+                    desiredVelocity = slipWay ? capsuleRayCaster2D.GroundNormalPerpendicular * (speedSettings.maxSpeed * .5f * GroundNormal.x)
                         : Vector2.zero;
                     overrideVelocity = true;
                 }
