@@ -14,7 +14,10 @@ namespace Project.Scripts.Utilities
         public static T Load<T>(string path) where T : class, new()
         {
             path = GetPathPlusApplicationPath(path);
+            
+#if UNITY_EDITOR
             Debug.Log(path);
+#endif
 
             return File.Exists(path) ? JsonUtility.FromJson<T>(File.ReadAllText(path)) : null;
         }

@@ -72,7 +72,7 @@ namespace Project.Scripts.Settings
         
         private static float ConvertSliderValueTodB(float sliderValue)
         {
-            return Mathf.Clamp(Mathf.Log10(sliderValue) * 20f +10,-80f,20f);
+            return Mathf.Clamp(Mathf.Log10(sliderValue) * 20f,-80f,0f);
         }
 
         private static float ConvertDBToSliderValue(float dBValue)

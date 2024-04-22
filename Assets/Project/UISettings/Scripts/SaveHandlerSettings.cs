@@ -8,12 +8,22 @@ namespace Project.UISettings.Scripts
         {
             return "SettingsSave.save";
         }
+
+        protected override GameSettings GenerateNewSave()
+        {
+            return new GameSettings()
+            {
+                masterVolume = .8f,
+                musicVolume = .8f,
+                effectVolume = .8f
+            };
+        }
     }
 
     public class GameSettings
     {
-        public float masterVolume = 0.8f;
-        public float musicVolume = 0.8f;
-        public float effectVolume = 0.8f;
+        public float masterVolume;
+        public float musicVolume;
+        public float effectVolume;
     }
 }

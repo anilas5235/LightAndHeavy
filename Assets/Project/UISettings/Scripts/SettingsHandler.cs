@@ -44,6 +44,7 @@ namespace Project.Scripts.Settings
         private void Start()
         {
              SetSliders();
+             Activate();
         }
 
         public override void Activate()
@@ -69,6 +70,8 @@ namespace Project.Scripts.Settings
             _currentSettings.masterVolume = master.SliderValue;
             _currentSettings.musicVolume = music.SliderValue;
             _currentSettings.effectVolume = effects.SliderValue;
+            _saveHandler.CurrentSave = _currentSettings;
+            _saveHandler.SaveDataToFile();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Project.Scripts.Utilities
                if(currentSave == null) LoadDataFromFile();
                return currentSave;  
             }
+            set => currentSave = value;
         }
 
         protected override void Awake()
