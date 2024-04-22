@@ -13,6 +13,7 @@ namespace Project.Scripts.LevelObjects
         private Transform _spriteTransform;
         private float _targetHeight;
         private float _startHeight;
+        private GameObject activator;
 
         private void Awake()
         {
@@ -31,21 +32,23 @@ namespace Project.Scripts.LevelObjects
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player") && !State)
             {
                 State = true;
                 buttonSpriteRenderer.color = activeColor;
                 _targetHeight = _startHeight -buttonHeight;
+                activator = other.gameObject;
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player") && State && other.gameObject == activator)
             {
                 State = false;
                 buttonSpriteRenderer.color = inActiveColor;
                 _targetHeight = _startHeight;
+                activator = null;
             }
         }
     }
