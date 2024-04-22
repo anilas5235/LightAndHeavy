@@ -2380,6 +2380,17 @@ Transform:
   - {fileID: 915564323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1423087428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5221915048903188472, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+  m_PrefabInstance: {fileID: 1774196681}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31f4b7c5726e234bb0678c4c35d15ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1457908988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7623500218095106249, guid: 309e420c5d9592c4683581132467f30a, type: 3}
@@ -2606,6 +2617,10 @@ PrefabInstance:
     - target: {fileID: 4088448839105255650, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
       propertyPath: m_Name
       value: LevelUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527269508756456006, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7882,9 +7897,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
+      propertyPath: winControl
+      value: 
+      objectReference: {fileID: 1774196682}
+    - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
+      propertyPath: loseControl
+      value: 
+      objectReference: {fileID: 1423087428}
+    - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
       propertyPath: winControll
       value: 
       objectReference: {fileID: 1774196682}
+    - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
+      propertyPath: pauseControl
+      value: 
+      objectReference: {fileID: 1497405946}
     - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
       propertyPath: pauseControll
       value: 

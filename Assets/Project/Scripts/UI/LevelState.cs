@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using Project.Scripts.LevelObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class LevelState : MonoBehaviour
 {
     [SerializeField] private FinishDoor[] doors = new FinishDoor[2];
-    [SerializeField] private UIPanelControll winControll;
-    [SerializeField] private UIPanelControll pauseControll;
+    [SerializeField] private UIPanelControll winControl;
+    [SerializeField] private UIPanelControll pauseControl;
+    [SerializeField] private UIPanelControll loseControl;
 
     private bool Pause;
 
@@ -37,12 +39,14 @@ public class LevelState : MonoBehaviour
         if (Pause)
         {
             Pause = false;
-            pauseControll.gameObject.SetActive(false);
+            pauseControl.gameObject.SetActive(false);
+            Time.timeScale = 1;
         }
         else
         {
             Pause = true;
-            pauseControll.gameObject.SetActive(true);
+            pauseControl.gameObject.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 
@@ -73,15 +77,15 @@ public class LevelState : MonoBehaviour
 
         if (allOpen)
         {
-            winControll.gameObject.SetActive(true);
+            winControl.gameObject.SetActive(true);
             Time.timeScale = 0;
-            winControll.Stars = 3;
+            winControl.Stars = 3;
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TriggerGameOver()
     {
-        
+        loseControl.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 }
