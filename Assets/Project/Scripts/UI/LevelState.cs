@@ -3,17 +3,61 @@ using System.Collections;
 using System.Collections.Generic;
 using Project.Scripts.LevelObjects;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LevelState : MonoBehaviour
 {
     [SerializeField] private FinishDoor[] doors = new FinishDoor[2];
     [SerializeField] private UIPanelControll winControll;
-    void Start()
+    [SerializeField] private UIPanelControll pauseControll;
+
+    private bool Pause;
+
+    private MainInput input;
+
+    private void OnEnable()
     {
         foreach (FinishDoor finishDoor in doors)
         {
             finishDoor.onDoorOpened.AddListener(DoorOpenedCheck);
         }
+        
+        input.Enable();
+
+    }
+
+    private void Awake()
+    {
+        input = new MainInput();
+        input.KeyBoardPlayer.Escape.performed += EscapeOnperformed;
+    }
+
+    private void EscapeOnperformed(InputAction.CallbackContext obj)
+    {
+        if (Pause)
+        {
+            Pause = false;
+            pauseControll.gameObject.SetActive(false);
+        }
+        else
+        {
+            Pause = true;
+            pauseControll.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (FinishDoor finishDoor in doors)
+        {
+            finishDoor.onDoorOpened.RemoveListener(DoorOpenedCheck);
+        }
+        input.Disable();
+    }
+
+    void Start()
+    {
+        
     }
 
     private void DoorOpenedCheck()

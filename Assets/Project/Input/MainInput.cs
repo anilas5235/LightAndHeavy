@@ -71,6 +71,15 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""MultiTap"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef11c33a-9a8e-40fb-933a-9af2c198fe29"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""HeavyRightDash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f81c75ad-4bf0-4a9d-ad2b-1f284733f5e7"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +205,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_KeyBoardPlayer_LightJump = m_KeyBoardPlayer.FindAction("LightJump", throwIfNotFound: true);
         m_KeyBoardPlayer_HeavyLeftDash = m_KeyBoardPlayer.FindAction("HeavyLeftDash", throwIfNotFound: true);
         m_KeyBoardPlayer_HeavyRightDash = m_KeyBoardPlayer.FindAction("HeavyRightDash", throwIfNotFound: true);
+        m_KeyBoardPlayer_Escape = m_KeyBoardPlayer.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,6 +272,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeyBoardPlayer_LightJump;
     private readonly InputAction m_KeyBoardPlayer_HeavyLeftDash;
     private readonly InputAction m_KeyBoardPlayer_HeavyRightDash;
+    private readonly InputAction m_KeyBoardPlayer_Escape;
     public struct KeyBoardPlayerActions
     {
         private @MainInput m_Wrapper;
@@ -260,6 +282,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @LightJump => m_Wrapper.m_KeyBoardPlayer_LightJump;
         public InputAction @HeavyLeftDash => m_Wrapper.m_KeyBoardPlayer_HeavyLeftDash;
         public InputAction @HeavyRightDash => m_Wrapper.m_KeyBoardPlayer_HeavyRightDash;
+        public InputAction @Escape => m_Wrapper.m_KeyBoardPlayer_Escape;
         public InputActionMap Get() { return m_Wrapper.m_KeyBoardPlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -284,6 +307,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @HeavyRightDash.started += instance.OnHeavyRightDash;
             @HeavyRightDash.performed += instance.OnHeavyRightDash;
             @HeavyRightDash.canceled += instance.OnHeavyRightDash;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IKeyBoardPlayerActions instance)
@@ -303,6 +329,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @HeavyRightDash.started -= instance.OnHeavyRightDash;
             @HeavyRightDash.performed -= instance.OnHeavyRightDash;
             @HeavyRightDash.canceled -= instance.OnHeavyRightDash;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IKeyBoardPlayerActions instance)
@@ -327,5 +356,6 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnLightJump(InputAction.CallbackContext context);
         void OnHeavyLeftDash(InputAction.CallbackContext context);
         void OnHeavyRightDash(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }
