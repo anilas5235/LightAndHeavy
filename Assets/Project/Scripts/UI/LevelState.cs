@@ -82,9 +82,10 @@ public class LevelState : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TriggerGameOver()
     {
         
+        loseControl.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 }
