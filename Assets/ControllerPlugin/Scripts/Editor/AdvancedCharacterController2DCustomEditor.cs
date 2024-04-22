@@ -15,6 +15,8 @@ namespace ControllerPlugin.Scripts.Editor
         {
             DrawScriptField<AdvancedCharacterController2D>(target as MonoBehaviour);
 
+            var script = target as AdvancedCharacterController2D;
+
             EditorGUILayout.BeginVertical();
             {
                 DrawGeneralBlock();
