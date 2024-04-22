@@ -340,6 +340,7 @@ namespace ControllerPlugin.Scripts
                 case CharacterActionState.Jumping:
                     WallSlidingTransitionCheck();
                     FallingTransitionCheck(currentVelocity);
+                    GroundTransitionCheck();
                     break;
                 case CharacterActionState.Falling:
                     GroundTransitionCheck();
