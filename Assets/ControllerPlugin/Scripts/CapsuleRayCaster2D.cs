@@ -68,7 +68,7 @@ namespace ControllerPlugin.Scripts
                 if(groundNormal == value) return;
                 groundNormal = value;
                 slopeAngle = Vector2.Angle(groundNormal, Vector2.up);
-                groundNormalPerp = Vector2.Perpendicular(groundNormal);
+                groundNormalPerp = -Vector2.Perpendicular(groundNormal);
             }
         }
 
