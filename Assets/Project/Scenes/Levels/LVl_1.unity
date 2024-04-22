@@ -608,10 +608,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3419956817269244178, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4.29841
-      objectReference: {fileID: 0}
-    - target: {fileID: 3419956817269244178, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.1707
       objectReference: {fileID: 0}
@@ -663,10 +659,6 @@ PrefabInstance:
       propertyPath: triggers.Array.data[0]
       value: 
       objectReference: {fileID: 490151402}
-    - target: {fileID: 8607943853424888446, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
-      propertyPath: triggers.Array.data[1]
-      value: 
-      objectReference: {fileID: 1048875772}
     - target: {fileID: 8607943853424888446, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
       propertyPath: worldPoints.Array.size
       value: 2
@@ -902,7 +894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1354540077773800349, guid: 45649043033d6af41b8a1f41ef77cf03, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.91
+      value: -5.01
       objectReference: {fileID: 0}
     - target: {fileID: 1354540077773800349, guid: 45649043033d6af41b8a1f41ef77cf03, type: 3}
       propertyPath: m_LocalPosition.z
@@ -939,10 +931,6 @@ PrefabInstance:
     - target: {fileID: 5258505216381431905, guid: 45649043033d6af41b8a1f41ef77cf03, type: 3}
       propertyPath: m_Name
       value: Button
-      objectReference: {fileID: 0}
-    - target: {fileID: 5830715750377409726, guid: 45649043033d6af41b8a1f41ef77cf03, type: 3}
-      propertyPath: buttonHeight
-      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2290,17 +2278,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2271f1f73ef4f44eab443d9ef28305a, type: 3}
---- !u!114 &1048875772 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8274039395195261270, guid: 4698bb774c5ac6e4ab2a22b8f6accd36, type: 3}
-  m_PrefabInstance: {fileID: 142943836}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9226984f07c5414b874eccad37c73064, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1076668558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2641,16 +2618,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3419956817269244178, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3.9343078
-      objectReference: {fileID: 0}
-    - target: {fileID: 3419956817269244178, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.0655
       objectReference: {fileID: 0}
     - target: {fileID: 3419956817269244178, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.82
+      value: 3.695
       objectReference: {fileID: 0}
     - target: {fileID: 3419956817269244178, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2695,7 +2668,7 @@ PrefabInstance:
     - target: {fileID: 8607943853424888446, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
       propertyPath: triggers.Array.data[0]
       value: 
-      objectReference: {fileID: 1048875772}
+      objectReference: {fileID: 1973563187}
     - target: {fileID: 8607943853424888446, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
       propertyPath: worldPoints.Array.size
       value: 2
@@ -2713,6 +2686,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6089860b10797f245ae5695f69b1fd13, type: 3}
+--- !u!114 &1973563187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8445899297649890813, guid: 4698bb774c5ac6e4ab2a22b8f6accd36, type: 3}
+  m_PrefabInstance: {fileID: 142943836}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9226984f07c5414b874eccad37c73064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2070889666
 GameObject:
   m_ObjectHideFlags: 0
