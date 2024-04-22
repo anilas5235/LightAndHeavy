@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Project.Scripts.LevelObjects
 {
@@ -10,6 +11,9 @@ namespace Project.Scripts.LevelObjects
         [SerializeField] private GameObject effectPrefab;
         [SerializeField] private float destroyParticleAfter;
         private SpriteRenderer spriteRenderer;
+        private bool destruction;
+
+        public UnityEvent onDestruction;
         protected void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -17,10 +21,13 @@ namespace Project.Scripts.LevelObjects
 
         public virtual void TriggerDestruction()
         {
+            if(destruction) return;
+            destruction = true;
             var eff = Instantiate(effectPrefab, transform.position, Quaternion.identity);
             eff.GetComponent<ParticleSystem>().Play();
             Destroy(eff,destroyParticleAfter);
             Destroy(gameObject);
+            onDestruction?.Invoke();
         }
     }
 }

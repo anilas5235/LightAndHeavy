@@ -11,14 +11,15 @@ namespace ControllerPlugin.Scripts.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            var script = fieldInfo.GetValue(property.serializedObject.targetObject) as DashParams;
             EditorGUILayout.BeginVertical("box");
-            _useDashCoolDownProperty = property.FindPropertyRelative("useDashCoolDown");
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("dashSpeed"));
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("dashDuration"));
+            _useDashCoolDownProperty = property.FindPropertyRelative(nameof(script.useDashCoolDown));
+            EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.dashSpeed)));
+            EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.dashDuration)));
             EditorGUILayout.PropertyField(_useDashCoolDownProperty);
             if (_useDashCoolDownProperty.boolValue)
             {
-                EditorGUILayout.PropertyField(property.FindPropertyRelative("dashCoolDown"));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.dashCoolDown)));
             }
             EditorGUILayout.EndVertical();
         }

@@ -25,11 +25,4 @@ namespace ControllerPlugin.Scripts
         Triggered,
         Canceled,
     }
-
-    [Serializable]
-    public struct FloatMinMax
-    {
-        public float min;
-        public float max;
-    }
 }

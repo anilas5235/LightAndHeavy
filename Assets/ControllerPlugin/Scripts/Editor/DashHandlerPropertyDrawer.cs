@@ -10,14 +10,15 @@ namespace ControllerPlugin.Scripts.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            _canDashProperty = property.FindPropertyRelative("canDash");
+            var script = fieldInfo.GetValue(property.serializedObject.targetObject) as DashHandler;
+            _canDashProperty = property.FindPropertyRelative(nameof(script.canDash));
             EditorGUILayout.BeginVertical("box");
                 
             EditorGUILayout.PropertyField(_canDashProperty);
             if (_canDashProperty.boolValue)
             {
-                EditorGUILayout.PropertyField(property.FindPropertyRelative("dashParams"));
-                EditorGUILayout.PropertyField(property.FindPropertyRelative("currentDashState"));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.dashParams)));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.currentDashState)));
             }
 
             EditorGUILayout.EndVertical();
