@@ -212,6 +212,7 @@ namespace ControllerPlugin.Scripts
         {
             CurrentCharacter2DFacingDirection = Character2DFacingDirection.None;
             CurrentCharacterActionState = CharacterActionState.Idle;
+            dashSettings.currentDashState = DashState.Ready;
         }
 
         #endregion
