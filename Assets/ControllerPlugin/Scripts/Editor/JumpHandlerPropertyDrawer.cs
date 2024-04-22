@@ -12,18 +12,20 @@ namespace ControllerPlugin.Scripts.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            _canJumpProperty = property.FindPropertyRelative("canJump");
-            _canAirJumpProperty = property.FindPropertyRelative("canAirJump");
-            _infiniteAirJumpsProperty = property.FindPropertyRelative("infiniteAirJumps");
+            var script = fieldInfo.GetValue(property.serializedObject.targetObject) as JumpHandler;
+            _canJumpProperty = property.FindPropertyRelative(nameof(script.canJump));
+            _canAirJumpProperty = property.FindPropertyRelative(nameof(script.canAirJump));
+            _infiniteAirJumpsProperty = property.FindPropertyRelative(nameof(script.infiniteAirJumps));
            
             EditorGUILayout.BeginVertical("box");
                 
             EditorGUILayout.PropertyField(_canJumpProperty);
             if (_canJumpProperty.boolValue)
             {
+                EditorGUILayout.BeginVertical();
                 {
-                    EditorGUILayout.PropertyField(property.FindPropertyRelative("jumpHeight"));
-                    EditorGUILayout.PropertyField(property.FindPropertyRelative("timeTillApex"));
+                    EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.jumpHeightMinMax)));
+                    EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.timeTillApex)));
                     EditorGUILayout.PropertyField(_canAirJumpProperty);
                     if (_canAirJumpProperty.boolValue)
                     {
@@ -31,11 +33,12 @@ namespace ControllerPlugin.Scripts.Editor
                         EditorGUILayout.PropertyField(_infiniteAirJumpsProperty);
                         if (!_infiniteAirJumpsProperty.boolValue)
                         {
-                            EditorGUILayout.PropertyField(property.FindPropertyRelative("maxAirJumps"));
+                            EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.maxAirJumps)));
                         }
                         EditorGUILayout.EndVertical();
                     }
                 }
+                EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndVertical();
         }

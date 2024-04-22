@@ -116,12 +116,12 @@ namespace ControllerPlugin.Scripts
             set => jumpSettings.canJump = value;
         }
 
-        public FloatMinMax JumpHeight
+        public Vector2 JumpHeight
         {
-            get => jumpSettings.jumpHeight;
+            get => jumpSettings.jumpHeightMinMax;
             set
             {
-                jumpSettings.jumpHeight = value;
+                jumpSettings.jumpHeightMinMax = value;
                 UpdateGravity();
             }
         }
@@ -242,7 +242,7 @@ namespace ControllerPlugin.Scripts
 
         protected virtual void ApplyGravity(ref Vector2 currVelocity)
         {
-            if (CurrentCharacterActionState != CharacterActionState.Dashing)
+            if (CurrentCharacterActionState != CharacterActionState.Dashing && InAir)
             {
                 currVelocity.y -= gravity * Time.fixedDeltaTime * (1 - physicsMaterial2D.friction);
             }

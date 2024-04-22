@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ControllerPlugin.Scripts
 {
@@ -7,7 +8,7 @@ namespace ControllerPlugin.Scripts
     public class JumpHandler
     {
         public bool canJump = true;
-        public FloatMinMax jumpHeight = new() { max = 1.5f, min = .25f };
+        public Vector2 jumpHeightMinMax = new() { y = 1.5f, x = .25f };
         [Range(0f, 3f)] public float timeTillApex = .6f;
         public bool canAirJump;
         public bool infiniteAirJumps;
@@ -18,9 +19,9 @@ namespace ControllerPlugin.Scripts
         
         public float CalculateGravityWithJumpValues(float gravityScale)
         {
-            var gravity = 2 * jumpHeight.max / Mathf.Pow(timeTillApex, 2) * gravityScale;
+            var gravity = 2 * jumpHeightMinMax.y / Mathf.Pow(timeTillApex, 2) * gravityScale;
             maxJumpVelocity = Mathf.Abs(gravity) * timeTillApex;
-            minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * jumpHeight.min);
+            minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * jumpHeightMinMax.x);
             
             return gravity;
         }

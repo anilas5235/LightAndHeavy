@@ -8,12 +8,13 @@ namespace ControllerPlugin.Scripts.Editor
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            var script = fieldInfo.GetValue(property.serializedObject.targetObject) as SpeedParameters;
             EditorGUILayout.BeginVertical("box");
             {
-                EditorGUILayout.PropertyField(property.FindPropertyRelative("maxSpeed"));
-                EditorGUILayout.PropertyField(property.FindPropertyRelative("maxFallSpeed"));
-                EditorGUILayout.PropertyField(property.FindPropertyRelative("maxAcceleration"));
-                EditorGUILayout.PropertyField(property.FindPropertyRelative("maxAirAcceleration"));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.maxSpeed)));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.maxFallSpeed)));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.maxAcceleration)));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.maxAirAcceleration)));
             }
             EditorGUILayout.EndVertical();
         }

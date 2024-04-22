@@ -10,13 +10,14 @@ namespace ControllerPlugin.Scripts.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            _canWallSlideProperty = property.FindPropertyRelative("canWallSlide");
+            var script = fieldInfo.GetValue(property.serializedObject.targetObject) as WallSlideParameters;
+            _canWallSlideProperty = property.FindPropertyRelative(nameof(script.canWallSlide));
            EditorGUILayout.BeginVertical("box");
                 
            EditorGUILayout.PropertyField(_canWallSlideProperty);
            if (_canWallSlideProperty.boolValue)
            {
-               EditorGUILayout.PropertyField(property.FindPropertyRelative("maxWallSlidingSpeed"));
+               EditorGUILayout.PropertyField(property.FindPropertyRelative(nameof(script.maxWallSlidingSpeed)));
            }
 
            EditorGUILayout.EndVertical();

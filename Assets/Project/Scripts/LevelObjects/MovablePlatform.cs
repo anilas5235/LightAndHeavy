@@ -10,11 +10,18 @@ namespace Project.Scripts.LevelObjects
     {
         [SerializeField] private Transform[] worldPoints;
         [SerializeField] private float speed = 5;
+        [SerializeField] private SaveTeleporter saveTeleporter;
        
         private Vector3 targetPoint;
         private int currentIndex;
         private Coroutine moveRoutine;
         private List<GameObject> children = new List<GameObject>();
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            saveTeleporter.enabled = false;
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -75,7 +82,7 @@ namespace Project.Scripts.LevelObjects
 
                     targetPoint = worldPoints[currentIndex].position;
                 }
-
+                saveTeleporter.enabled = !rise && currentIndex < 1;
                 yield return null;
             } while (!done);
 
