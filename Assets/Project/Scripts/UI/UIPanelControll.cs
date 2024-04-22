@@ -14,7 +14,7 @@ public class UIPanelControll : MonoBehaviour
     
     private string path = "LevelData.txt";
 
-    [SerializeField] private int Stars;
+    public int Stars;
 
     [SerializeField] private bool Win;
 
