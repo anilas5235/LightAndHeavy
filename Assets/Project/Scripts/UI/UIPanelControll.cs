@@ -61,6 +61,8 @@ public class UIPanelControll : MonoBehaviour
             }
             SaveSystem.Save<AllLevelsObject>(path, levelsObject);
         }
+
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
     private void NextLvlBtnOnclicked()
@@ -82,6 +84,7 @@ public class UIPanelControll : MonoBehaviour
             }
             SaveSystem.Save<AllLevelsObject>(path, levelsObject);
         }
+        Time.timeScale = 1;
         SceneManager.LoadScene(transitionLevel);
     }
 

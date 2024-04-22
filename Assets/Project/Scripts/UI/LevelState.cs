@@ -30,6 +30,7 @@ public class LevelState : MonoBehaviour
         if (allOpen)
         {
             winControll.gameObject.SetActive(true);
+            Time.timeScale = 0;
             winControll.Stars = 3;
         }
     }
