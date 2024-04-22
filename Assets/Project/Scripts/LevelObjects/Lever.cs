@@ -15,6 +15,7 @@ namespace Project.Scripts.LevelObjects
         [SerializeField,ReadOnly]private float originalAngle;
         [SerializeField,ReadOnly]private float usedMinAngle;
         [SerializeField,ReadOnly]private float usedMaxAngle;
+   
 
         private Collider2D _collider2D;
 

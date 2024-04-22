@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 8680941079150262520}
   - component: {fileID: 7159904917961143473}
   m_Layer: 5
-  m_Name: WinLose
+  m_Name: LevelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
