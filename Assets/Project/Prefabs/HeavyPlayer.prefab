@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9cf6c75c8540bdaa595652f11a5695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityScale: 4
+  gravityScale: 3
   maxSlopeAngle: 50
   speedSettings:
     maxSpeed: 4
@@ -139,15 +139,13 @@ MonoBehaviour:
     maxAirAcceleration: 8
   jumpSettings:
     canJump: 0
-    jumpHeight:
-      min: 0.25
-      max: 1.5
+    jumpHeightMinMax: {x: 0.25, y: 1.5}
     timeTillApex: 0.6
     canAirJump: 0
     infiniteAirJumps: 0
     maxAirJumps: 1
-    maxJumpVelocity: 20
-    minJumpVelocity: 4.082483
+    maxJumpVelocity: 14.999999
+    minJumpVelocity: 3.5355337
   wallSlideSettings:
     canWallSlide: 0
     maxWallSlidingSpeed: 1.5
@@ -171,7 +169,7 @@ MonoBehaviour:
   input: {x: 0, y: 0}
   currentActionState: 0
   current2DFacingDirection: 0
-  gravity: 33.333332
+  gravity: 24.999998
   onStateChanged:
     m_PersistentCalls:
       m_Calls: []

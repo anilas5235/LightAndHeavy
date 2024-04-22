@@ -51,6 +51,7 @@ namespace ControllerPlugin.Scripts.Editor
             {
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("maxSlopeAngle"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("gravityScale"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("slipWay"));
             }
             EditorGUILayout.EndVertical();
         }

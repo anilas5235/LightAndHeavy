@@ -13,6 +13,7 @@ namespace ControllerPlugin.Scripts
 
         [SerializeField, Range(0.01f, 10f)] private float gravityScale = 1f;
         [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 45f;
+        [SerializeField] protected bool slipWay;
 
         [SerializeField] protected SpeedParameters speedSettings;
 
@@ -270,30 +271,49 @@ namespace ControllerPlugin.Scripts
         protected virtual void HandleMovementInput(ref Vector2 currVelocity, Vector2Int inputVector)
         {
             var xDirectVal = Mathf.Clamp(inputVector.x, -1, 1);
-            var acceleration = speedSettings.GetAcceleration(OnGround);
 
-            var desiredVelocity = OnSlope
-                ? capsuleRayCaster2D.GroundNormalPerpendicular * -xDirectVal
-                : Vector2.right * xDirectVal;
+            Vector2 desiredVelocity;
+            var overrideVelocity = false; 
 
-            if (CurrentCharacterActionState == CharacterActionState.Dashing)
+            if (OnSlope)
             {
-                if (OnSlope) desiredVelocity *= dashSettings.DashSpeed;
-                else currentVelocity = dashSettings.DashVector;
+                desiredVelocity = capsuleRayCaster2D.GroundNormalPerpendicular * (xDirectVal * speedSettings.maxSpeed);
+                if (OnSlope && SlopeAngle > maxSlopeAngle && Math.Sign(GroundNormal.x) != Math.Sign(inputVector.x))
+                {
+                    desiredVelocity = slipWay ? capsuleRayCaster2D.GroundNormalPerpendicular * (speedSettings.maxSpeed * .5f * GroundNormal.x)
+                        : Vector2.zero;
+                    overrideVelocity = true;
+                }
+                else if (CurrentCharacterActionState == CharacterActionState.Dashing)
+                {
+
+                    desiredVelocity = capsuleRayCaster2D.GroundNormalPerpendicular *
+                                   (dashSettings.DashSpeed * Mathf.Sign(dashSettings.DashVector.x));
+                    overrideVelocity = true;
+                }
             }
             else
             {
-                desiredVelocity *= speedSettings.maxSpeed;
+                desiredVelocity = Vector2.right * (xDirectVal * speedSettings.maxSpeed);
+                
+                if (CurrentCharacterActionState == CharacterActionState.Dashing)
+                {
+                    desiredVelocity = dashSettings.DashVector;
+                    overrideVelocity = true;
+                }
             }
 
-            if (OnSlope && SlopeAngle > maxSlopeAngle && Math.Sign(GroundNormal.x) != Math.Sign(inputVector.x))
-                desiredVelocity *= 0;
-
-            if (CurrentCharacterActionState == CharacterActionState.Dashing) return;
-
-            currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x,
-                acceleration * Time.fixedDeltaTime);
-            if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
+            if (overrideVelocity)
+            {
+                currentVelocity = desiredVelocity;
+            }
+            else
+            {
+                var acceleration = speedSettings.GetAcceleration(OnGround);
+                currVelocity.x = Mathf.MoveTowards(currVelocity.x, desiredVelocity.x,
+                    acceleration * Time.fixedDeltaTime);
+                if (OnGround && OnSlope) currVelocity.y = desiredVelocity.y;
+            }
         }
 
         protected void HandleJumpInput(ref Vector2 currVelocity)
