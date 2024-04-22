@@ -409,6 +409,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4698bb774c5ac6e4ab2a22b8f6accd36, type: 3}
+--- !u!114 &163364686 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3608295134735758739, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+  m_PrefabInstance: {fileID: 1416051502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31f4b7c5726e234bb0678c4c35d15ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &273918709
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -599,6 +610,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f77843577c43ab9c6d267f6b0a8a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &499320413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 499320415}
+  - component: {fileID: 499320414}
+  m_Layer: 0
+  m_Name: LevelStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &499320414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499320413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0409312daeee7f346a66f91cd209b131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 1787726364}
+  - {fileID: 1825082957}
+  winControll: {fileID: 163364686}
+--- !u!4 &499320415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499320413}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.815159, y: 1.5237019, z: 0.020839516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &505720818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1010,7 +1069,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -10
+  m_SortingOrder: -100
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
   m_MaxChunkCount: 16
@@ -2609,6 +2668,28 @@ Transform:
   - {fileID: 114330496}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1787726364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7322886780549168934, guid: a2271f1f73ef4f44eab443d9ef28305a, type: 3}
+  m_PrefabInstance: {fileID: 964156509}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25aaba2cf2645e185dadfe63d26eed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1825082957 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7747191452909898877, guid: 91bec90f22e65984985d51985474c3b3, type: 3}
+  m_PrefabInstance: {fileID: 481979173}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25aaba2cf2645e185dadfe63d26eed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1923751005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7923,3 +8004,4 @@ SceneRoots:
   - {fileID: 322411440}
   - {fileID: 1521593171}
   - {fileID: 1416051502}
+  - {fileID: 499320415}
