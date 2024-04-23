@@ -14,8 +14,8 @@ namespace Project.Scripts.LevelObjects
         protected override void OnEnable()
         {
             base.OnEnable();
-            StateChanged(State);
             effectParticleSystem.Stop();
+            StateChanged(State);
         }
 
         protected override void StateChanged(bool newState)
