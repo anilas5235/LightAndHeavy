@@ -61,7 +61,7 @@ MonoBehaviour:
       m_Calls: []
   minAngle: -30
   maxAngle: 30
-  angleStep: 1
+  angleStep: 1.5
   canonStrength: 12
   shootDuration: 4
   tipTransform: {fileID: 5621393467601083193}

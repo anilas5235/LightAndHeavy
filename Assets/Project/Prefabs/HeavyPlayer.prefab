@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityScale: 3
-  maxSlopeAngle: 50
+  maxSlopeAngle: 60
   slipWay: 0
   speedSettings:
     maxSpeed: 4
