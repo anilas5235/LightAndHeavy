@@ -458,7 +458,11 @@ MonoBehaviour:
   transitionLevel: -1
   transitonLvlBtn: {fileID: 6866374825236977474}
   mainMenuBtn: {fileID: 479462684145635138}
-  Stars: 0
+  stars:
+  - {fileID: 762362904558269990}
+  - {fileID: 6308896976921786190}
+  - {fileID: 6418288068342525634}
+  StarFull: {fileID: 21300048, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   Win: 1
 --- !u!1 &4088448839105255650
 GameObject:
@@ -630,7 +634,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300048, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  m_Sprite: {fileID: 21300050, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -702,10 +706,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OwnScene: 1
-  transitionLevel: 2
+  transitionLevel: 0
   transitonLvlBtn: {fileID: 7592525661537473602}
   mainMenuBtn: {fileID: 7373749502263040929}
-  Stars: 0
+  stars: []
+  StarFull: {fileID: 0}
   Win: 0
 --- !u!114 &7881664544012431484
 MonoBehaviour:
@@ -954,7 +959,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300048, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  m_Sprite: {fileID: 21300050, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1452,7 +1457,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300048, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  m_Sprite: {fileID: 21300050, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2219,10 +2224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OwnScene: 1
-  transitionLevel: 2
+  transitionLevel: 0
   transitonLvlBtn: {fileID: 861072783652027262}
   mainMenuBtn: {fileID: 8298550271607122932}
-  Stars: 0
+  stars: []
+  StarFull: {fileID: 0}
   Win: 0
 --- !u!114 &4142281837421770541
 MonoBehaviour:

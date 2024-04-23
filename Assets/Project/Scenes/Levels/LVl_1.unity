@@ -264,6 +264,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4389993639738121387, guid: 4fe3d653818a48c4aa847b80571c496a, type: 3}
+      propertyPath: WinConSeconds
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4389993639738121387, guid: 4fe3d653818a48c4aa847b80571c496a, type: 3}
       propertyPath: doors.Array.data[0]
       value: 
       objectReference: {fileID: 1825082957}

@@ -14,7 +14,9 @@ public class UIPanelControll : MonoBehaviour
     
     private string path = "LevelData.txt";
 
-    public int Stars;
+    [SerializeField] private Image[] stars;
+    [SerializeField] private Sprite StarFull;
+    private int Stars;
 
     [SerializeField] private bool Win;
 
@@ -40,6 +42,19 @@ public class UIPanelControll : MonoBehaviour
         
         transitonLvlBtn.onClick.RemoveListener(NextLvlBtnOnclicked);
         mainMenuBtn.onClick.RemoveListener(MainMenuBtnOnClicked);
+    }
+
+    public void SetStars(bool[] stars)
+    {   
+        for (int i = 0; i < stars.Length; i++)
+        {
+            if (stars[i])
+            {
+                this.stars[i].sprite = StarFull;
+                Stars++;
+            }
+            
+        }
     }
 
     private void MainMenuBtnOnClicked()
