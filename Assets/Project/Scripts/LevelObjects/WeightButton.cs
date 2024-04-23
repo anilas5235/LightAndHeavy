@@ -32,7 +32,7 @@ namespace Project.Scripts.LevelObjects
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Player") && !State)
+            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Box")) && !State)
             {
                 State = true;
                 buttonSpriteRenderer.color = activeColor;
@@ -43,7 +43,7 @@ namespace Project.Scripts.LevelObjects
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Player") && State && other.gameObject == activator)
+            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Box")) && State && other.gameObject == activator)
             {
                 State = false;
                 buttonSpriteRenderer.color = inActiveColor;
