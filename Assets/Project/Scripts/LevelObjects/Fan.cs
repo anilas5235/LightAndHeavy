@@ -7,6 +7,7 @@ namespace Project.Scripts.LevelObjects
         [SerializeField] private BoxCollider2D boxCollider2D;
         [SerializeField] private AreaEffector2D areaEffector2D;
         [SerializeField] private Animator animator;
+        [SerializeField] private ParticleSystem effectParticleSystem;
     
         private static readonly int On = Animator.StringToHash("On");
 
@@ -14,6 +15,7 @@ namespace Project.Scripts.LevelObjects
         {
             base.OnEnable();
             StateChanged(State);
+            effectParticleSystem.Stop();
         }
 
         protected override void StateChanged(bool newState)
@@ -22,6 +24,8 @@ namespace Project.Scripts.LevelObjects
             boxCollider2D.enabled = newState;
             areaEffector2D.enabled = newState;
             animator.SetBool(On, newState);
+            if(newState) effectParticleSystem.Play();
+            else effectParticleSystem.Stop();
         }
     }
 }
