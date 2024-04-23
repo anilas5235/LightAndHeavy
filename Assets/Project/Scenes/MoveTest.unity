@@ -383,6 +383,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1539432156925993331, guid: 74d86416197cd664cb6a3c7d0deb223e, type: 3}
+      propertyPath: state
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1539432156925993331, guid: 74d86416197cd664cb6a3c7d0deb223e, type: 3}
+      propertyPath: invert
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1539432156925993331, guid: 74d86416197cd664cb6a3c7d0deb223e, type: 3}
       propertyPath: triggers.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1587,6 +1595,9 @@ MonoBehaviour:
   effectParticleSystem: {fileID: 1283549127}
   spriteRenderer: {fileID: 1283549124}
   magnitude: 0.05
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &1283549124
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ namespace Project.Scripts.LevelObjects
     {
         [SerializeField] private bool state;
         [SerializeField] private BoolInteractable[] triggers;
+        [SerializeField] private bool invert = false;
         public bool State
         {
             get => state;
@@ -48,7 +49,8 @@ namespace Project.Scripts.LevelObjects
 
         protected virtual void CheckTriggers(bool newState)
         {
-            State = newState || triggers.Any(trigger => trigger && trigger.State);
+            var temp = newState || triggers.Any(trigger => trigger && trigger.State);
+            State = invert ? !temp: temp;
         }
     }
 }
