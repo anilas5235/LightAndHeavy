@@ -447,11 +447,6 @@ namespace ControllerPlugin.Scripts
             {
                 CurrentCharacterActionState = CharacterActionState.Falling;
             }
-            else if (SlopeAngle > maxSlopeAngle)
-            {
-                if (wallSlideSettings.canWallSlide) CurrentCharacterActionState = CharacterActionState.WallSliding;
-                else CurrentCharacterActionState = CharacterActionState.Falling;
-            }
         }
 
         private void WallSlidingTransitionCheck()

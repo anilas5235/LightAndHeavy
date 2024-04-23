@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Canon
+  - Box
   layers:
   - Default
   - TransparentFX
