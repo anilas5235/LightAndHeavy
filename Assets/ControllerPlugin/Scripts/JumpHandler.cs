@@ -32,7 +32,7 @@ namespace ControllerPlugin.Scripts
             {
                 case CharacterActionState.Jumping:
                 case CharacterActionState.Falling:
-                    if (!CanAirJumpNow()) break;
+                    if (!canAirJump || !CanAirJumpNow()) break;
                     HandleAirJump(ref currVelocity);
                     return true;
                 default:
