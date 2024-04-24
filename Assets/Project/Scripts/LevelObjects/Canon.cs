@@ -20,7 +20,7 @@ namespace Project.Scripts.LevelObjects
         [SerializeField,Range(1, 30)] private float shootDuration = 2;
         [SerializeField] private Transform tipTransform;
         [SerializeField] private SpriteRenderer tippLine;
-        
+        [SerializeField] private ParticleSystem particleSystem;
         
         [Header("info"),SerializeField,ReadOnly] private float currentAngleTarget;
         [SerializeField,ReadOnly] private float originalAngle;
@@ -78,11 +78,15 @@ namespace Project.Scripts.LevelObjects
 
         protected override void StateChanged(bool newState)
         {
-            if (newState && user != null && readyForUse)
+            if (newState &&readyForUse)
             {
-                Shoot();
-                _mainInput.Disable();
-                tippLine.enabled = false;
+                if(particleSystem) particleSystem.Play();
+                if (user != null)
+                {
+                    Shoot();
+                    _mainInput.Disable();
+                    tippLine.enabled = false;
+                }
             }
         }
 

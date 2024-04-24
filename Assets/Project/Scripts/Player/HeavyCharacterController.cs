@@ -17,8 +17,7 @@ namespace Project.Scripts.Player
             base.Awake();
             _mainInput = new MainInput();
             SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyXAxis,HorizontalInput);
-            SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyLeftDash,DashLeft);
-            SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyRightDash,DashRight);
+            SubFunctionToAllInputEvents(_mainInput.KeyBoardPlayer.HeavyDash,DashHeavy);
         }
         protected override void OnEnable()
         {
@@ -35,15 +34,14 @@ namespace Project.Scripts.Player
         {
             return ElementType.Heavy;
         }
-        
-        private void DashRight(InputAction.CallbackContext obj)
+        private void DashHeavy(InputAction.CallbackContext obj)
         {
-            if(obj.performed) DashInput(Vector2.right);
-        }
-
-        private void DashLeft(InputAction.CallbackContext obj)
-        {
-            if(obj.performed) DashInput(Vector2.left);
+            if (obj.performed)
+            {
+                DashInput(CurrentCharacter2DFacingDirection == Character2DFacingDirection.Left
+                    ? Vector2.left
+                    : Vector2.right);
+            }
         }
     }
 }

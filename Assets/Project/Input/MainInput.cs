@@ -55,21 +55,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""HeavyLeftDash"",
+                    ""name"": ""HeavyDash"",
                     ""type"": ""Button"",
                     ""id"": ""067303c1-5925-4e11-98be-4f4fadaea9c1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""MultiTap"",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""HeavyRightDash"",
-                    ""type"": ""Button"",
-                    ""id"": ""d23a0ba2-0ba6-4761-a464-5260f709b2a3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""MultiTap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
@@ -163,22 +154,11 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7177075f-a108-41b1-a9dd-5276ffdcede8"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""path"": ""<Keyboard>/rightCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HeavyLeftDash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b207f056-5c74-429f-8aa2-48378f36366d"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""HeavyRightDash"",
+                    ""action"": ""HeavyDash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -203,8 +183,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_KeyBoardPlayer_LightXAxis = m_KeyBoardPlayer.FindAction("LightXAxis", throwIfNotFound: true);
         m_KeyBoardPlayer_HeavyXAxis = m_KeyBoardPlayer.FindAction("HeavyXAxis", throwIfNotFound: true);
         m_KeyBoardPlayer_LightJump = m_KeyBoardPlayer.FindAction("LightJump", throwIfNotFound: true);
-        m_KeyBoardPlayer_HeavyLeftDash = m_KeyBoardPlayer.FindAction("HeavyLeftDash", throwIfNotFound: true);
-        m_KeyBoardPlayer_HeavyRightDash = m_KeyBoardPlayer.FindAction("HeavyRightDash", throwIfNotFound: true);
+        m_KeyBoardPlayer_HeavyDash = m_KeyBoardPlayer.FindAction("HeavyDash", throwIfNotFound: true);
         m_KeyBoardPlayer_Escape = m_KeyBoardPlayer.FindAction("Escape", throwIfNotFound: true);
     }
 
@@ -270,8 +249,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeyBoardPlayer_LightXAxis;
     private readonly InputAction m_KeyBoardPlayer_HeavyXAxis;
     private readonly InputAction m_KeyBoardPlayer_LightJump;
-    private readonly InputAction m_KeyBoardPlayer_HeavyLeftDash;
-    private readonly InputAction m_KeyBoardPlayer_HeavyRightDash;
+    private readonly InputAction m_KeyBoardPlayer_HeavyDash;
     private readonly InputAction m_KeyBoardPlayer_Escape;
     public struct KeyBoardPlayerActions
     {
@@ -280,8 +258,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         public InputAction @LightXAxis => m_Wrapper.m_KeyBoardPlayer_LightXAxis;
         public InputAction @HeavyXAxis => m_Wrapper.m_KeyBoardPlayer_HeavyXAxis;
         public InputAction @LightJump => m_Wrapper.m_KeyBoardPlayer_LightJump;
-        public InputAction @HeavyLeftDash => m_Wrapper.m_KeyBoardPlayer_HeavyLeftDash;
-        public InputAction @HeavyRightDash => m_Wrapper.m_KeyBoardPlayer_HeavyRightDash;
+        public InputAction @HeavyDash => m_Wrapper.m_KeyBoardPlayer_HeavyDash;
         public InputAction @Escape => m_Wrapper.m_KeyBoardPlayer_Escape;
         public InputActionMap Get() { return m_Wrapper.m_KeyBoardPlayer; }
         public void Enable() { Get().Enable(); }
@@ -301,12 +278,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @LightJump.started += instance.OnLightJump;
             @LightJump.performed += instance.OnLightJump;
             @LightJump.canceled += instance.OnLightJump;
-            @HeavyLeftDash.started += instance.OnHeavyLeftDash;
-            @HeavyLeftDash.performed += instance.OnHeavyLeftDash;
-            @HeavyLeftDash.canceled += instance.OnHeavyLeftDash;
-            @HeavyRightDash.started += instance.OnHeavyRightDash;
-            @HeavyRightDash.performed += instance.OnHeavyRightDash;
-            @HeavyRightDash.canceled += instance.OnHeavyRightDash;
+            @HeavyDash.started += instance.OnHeavyDash;
+            @HeavyDash.performed += instance.OnHeavyDash;
+            @HeavyDash.canceled += instance.OnHeavyDash;
             @Escape.started += instance.OnEscape;
             @Escape.performed += instance.OnEscape;
             @Escape.canceled += instance.OnEscape;
@@ -323,12 +297,9 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @LightJump.started -= instance.OnLightJump;
             @LightJump.performed -= instance.OnLightJump;
             @LightJump.canceled -= instance.OnLightJump;
-            @HeavyLeftDash.started -= instance.OnHeavyLeftDash;
-            @HeavyLeftDash.performed -= instance.OnHeavyLeftDash;
-            @HeavyLeftDash.canceled -= instance.OnHeavyLeftDash;
-            @HeavyRightDash.started -= instance.OnHeavyRightDash;
-            @HeavyRightDash.performed -= instance.OnHeavyRightDash;
-            @HeavyRightDash.canceled -= instance.OnHeavyRightDash;
+            @HeavyDash.started -= instance.OnHeavyDash;
+            @HeavyDash.performed -= instance.OnHeavyDash;
+            @HeavyDash.canceled -= instance.OnHeavyDash;
             @Escape.started -= instance.OnEscape;
             @Escape.performed -= instance.OnEscape;
             @Escape.canceled -= instance.OnEscape;
@@ -354,8 +325,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         void OnLightXAxis(InputAction.CallbackContext context);
         void OnHeavyXAxis(InputAction.CallbackContext context);
         void OnLightJump(InputAction.CallbackContext context);
-        void OnHeavyLeftDash(InputAction.CallbackContext context);
-        void OnHeavyRightDash(InputAction.CallbackContext context);
+        void OnHeavyDash(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
     }
 }

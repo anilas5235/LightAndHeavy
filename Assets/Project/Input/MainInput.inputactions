@@ -33,21 +33,12 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "HeavyLeftDash",
+                    "name": "HeavyDash",
                     "type": "Button",
                     "id": "067303c1-5925-4e11-98be-4f4fadaea9c1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "HeavyRightDash",
-                    "type": "Button",
-                    "id": "d23a0ba2-0ba6-4761-a464-5260f709b2a3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "MultiTap",
+                    "interactions": "",
                     "initialStateCheck": true
                 },
                 {
@@ -141,22 +132,11 @@
                 {
                     "name": "",
                     "id": "7177075f-a108-41b1-a9dd-5276ffdcede8",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/rightCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeavyLeftDash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b207f056-5c74-429f-8aa2-48378f36366d",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HeavyRightDash",
+                    "action": "HeavyDash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
