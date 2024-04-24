@@ -4853,6 +4853,10 @@ PrefabInstance:
       propertyPath: transitionLevel
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3582973346394732530, guid: 4fe3d653818a48c4aa847b80571c496a, type: 3}
+      propertyPath: LevelTime
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4389993639738121387, guid: 4fe3d653818a48c4aa847b80571c496a, type: 3}
       propertyPath: doors.Array.data[0]
       value: 
@@ -19363,6 +19367,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1647802187}
   - {fileID: 911610494}
   - {fileID: 1843896937}
   - {fileID: 1356797887}
@@ -19371,7 +19376,6 @@ SceneRoots:
   - {fileID: 589733036}
   - {fileID: 1979881732}
   - {fileID: 232326960}
-  - {fileID: 1647802187}
   - {fileID: 1089149992}
   - {fileID: 355166966}
   - {fileID: 1262831629}

@@ -104,6 +104,7 @@ MonoBehaviour:
   effectParticleSystem: {fileID: 1854687317062858573}
   spriteRenderer: {fileID: 7811620243015472827}
   magnitude: 0.05
+  collected: 0
   onCollect:
     m_PersistentCalls:
       m_Calls: []
@@ -3737,7 +3738,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 0.807486, b: 0.2783019, a: 1}
+        key1: {r: 0.69411767, g: 0.5803922, b: 0.45882356, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}

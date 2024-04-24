@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1854687317062858573, guid: 507cf97cf63fdda4b810a7d120bc4604, type: 3}
+      propertyPath: ColorBySpeedModule.gradient.maxGradient.key1.b
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854687317062858573, guid: 507cf97cf63fdda4b810a7d120bc4604, type: 3}
+      propertyPath: ColorBySpeedModule.gradient.maxGradient.key1.g
+      value: 0.5529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854687317062858573, guid: 507cf97cf63fdda4b810a7d120bc4604, type: 3}
+      propertyPath: ColorBySpeedModule.gradient.maxGradient.key1.r
+      value: 0.52156866
+      objectReference: {fileID: 0}
     - target: {fileID: 3504662231613719246, guid: 507cf97cf63fdda4b810a7d120bc4604, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

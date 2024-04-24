@@ -15,6 +15,8 @@ public class LevelState : MonoBehaviour
     [SerializeField] private UIPanelControll loseControl;
     [SerializeField] private CollectableManager collectableManager;
 
+    private bool canPause = true;
+
     [SerializeField] private Timer timer;
 
     private bool Pause;
@@ -40,6 +42,10 @@ public class LevelState : MonoBehaviour
 
     private void EscapeOnperformed(InputAction.CallbackContext obj)
     {
+        if (!canPause)
+        {
+            return;
+        }
         if (Pause)
         {
             Pause = false;
@@ -96,12 +102,13 @@ public class LevelState : MonoBehaviour
             }
             
             winControl.SetStars(stars);
+            canPause = false;
         }
     }
 
     public void TriggerGameOver()
     {
-        
+        canPause = true;
         loseControl.gameObject.SetActive(true);
         Time.timeScale = 0;
     }
