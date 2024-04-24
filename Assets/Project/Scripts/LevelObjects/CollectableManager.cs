@@ -6,7 +6,7 @@ namespace Project.Scripts.LevelObjects
 {
     public class CollectableManager : MonoBehaviour
     {
-        private Dictionary<ElementType, int> collectInfo;
+        private Dictionary<ElementType, int> collectInfo = new Dictionary<ElementType, int>();
         private void Awake()
         {
             var allCollectables = FindObjectsOfType<Collectable>();

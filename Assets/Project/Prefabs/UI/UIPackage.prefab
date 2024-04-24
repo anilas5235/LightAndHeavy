@@ -144,6 +144,10 @@ PrefabInstance:
       propertyPath: doors.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
+      propertyPath: collectableManager
+      value: 
+      objectReference: {fileID: 2494554205879875458}
     - target: {fileID: 6796699035126527087, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
       propertyPath: m_Name
       value: LevelStateManager
@@ -322,6 +326,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 794130371739605037, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
   m_PrefabInstance: {fileID: 3154758664875856918}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2494554205879875458 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 673740730336797588, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+  m_PrefabInstance: {fileID: 3154758664875856918}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5131f6b8c65084eb1acea5e50b5d37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3582973346394732530 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1909160160124609508, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
