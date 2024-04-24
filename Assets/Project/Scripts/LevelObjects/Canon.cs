@@ -61,7 +61,9 @@ namespace Project.Scripts.LevelObjects
                 {
                     _mainInput.Enable();
                     user = comp;
-                    comp.gameObject.SetActive(false);
+                    comp.enabled = false;
+                    comp.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    comp.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                     tippLine.enabled = true;
                 }
                 readyForUse = true;
@@ -88,7 +90,8 @@ namespace Project.Scripts.LevelObjects
         {
             var player = user.gameObject;
             var tipPosition = tipTransform.position;
-            player.SetActive(true);
+            user.enabled = true;
+            player.GetComponent<SpriteRenderer>().enabled = true;
             player.transform.position = tipPosition;
             var dashParams = new DashParams()
             {
