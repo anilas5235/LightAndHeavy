@@ -443,7 +443,7 @@ namespace ControllerPlugin.Scripts
                 if (capsuleRayCaster2D.WallDetection == Character2DFacingDirection.None)
                     CurrentCharacterActionState = CharacterActionState.Falling;
             }
-            else if (!OnGround && currVelocity.y < 0)
+            else if (!OnGround && currVelocity.y <= 0)
             {
                 CurrentCharacterActionState = CharacterActionState.Falling;
             }
