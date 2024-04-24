@@ -44,7 +44,6 @@ namespace Project.Scripts.Settings
         private void Start()
         {
              SetSliders();
-             Activate();
         }
 
         public override void Activate()

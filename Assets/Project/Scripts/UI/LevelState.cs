@@ -2,18 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Project.Scripts.LevelObjects;
+using Project.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class LevelState : MonoBehaviour
 {
     [SerializeField] private FinishDoor[] doors = new FinishDoor[2];
+    [SerializeField] private SettingsHandler handler;
     [SerializeField] private UIPanelControll winControl;
     [SerializeField] private UIPanelControll pauseControl;
     [SerializeField] private UIPanelControll loseControl;
 
     [SerializeField] private float WinConSeconds;
-    [SerializeField] private int WinConCollectables;
 
     private bool Pause;
 
@@ -42,12 +43,14 @@ public class LevelState : MonoBehaviour
         {
             Pause = false;
             pauseControl.gameObject.SetActive(false);
+            handler.Deactivate();
             Time.timeScale = 1;
         }
         else
         {
             Pause = true;
             pauseControl.gameObject.SetActive(true);
+            handler.Activate();
             Time.timeScale = 0;
         }
     }
@@ -79,7 +82,7 @@ public class LevelState : MonoBehaviour
 
         if (allOpen)
         {
-            bool[] stars = new []{true, false, false};
+            bool[] stars = {true, false, false};
             winControl.gameObject.SetActive(true);
             Time.timeScale = 0;
             if (Time.timeSinceLevelLoad < WinConSeconds)
