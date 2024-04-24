@@ -26,5 +26,14 @@ namespace Project.Scripts.LevelObjects
         {
             return collectInfo[type] < 1;
         }
+
+        public bool CollectedAll()
+        {
+
+            if (!CollectedAll(ElementType.Light)) return false;
+            if (!CollectedAll(ElementType.Heavy)) return false;
+            if (!CollectedAll(ElementType.None)) return false;
+            return true;
+        }
     }
 }
