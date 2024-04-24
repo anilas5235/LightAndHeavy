@@ -67,7 +67,10 @@ public class UIPanelControll : MonoBehaviour
                 if (levelsObject.levelDatas[i].LvlName == SceneManager.GetActiveScene().name)
                 {
                     LevelData currentLevel = levelsObject.levelDatas[i];
-                    currentLevel.StarCount = Stars;
+                    if (currentLevel.StarCount < Stars)
+                    {
+                        currentLevel.StarCount = Stars;
+                    }
                     LevelData nextLevel = levelsObject.levelDatas[i+1];
                     nextLevel.locked = false;
                     levelsObject.levelDatas[i] = currentLevel;
@@ -90,7 +93,10 @@ public class UIPanelControll : MonoBehaviour
                 if (levelsObject.levelDatas[i].LvlName == SceneManager.GetActiveScene().name)
                 {
                     LevelData currentLevel = levelsObject.levelDatas[i];
-                    currentLevel.StarCount = Stars;
+                    if (currentLevel.StarCount < Stars)
+                    {
+                        currentLevel.StarCount = Stars;
+                    }
                     LevelData nextLevel = levelsObject.levelDatas[i+1];
                     nextLevel.locked = false;
                     levelsObject.levelDatas[i] = currentLevel;

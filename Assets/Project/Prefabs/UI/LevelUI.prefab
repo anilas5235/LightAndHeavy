@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 6028574757196676787}
   - component: {fileID: 5394038522893213164}
   - component: {fileID: 3459031969917320746}
+  - component: {fileID: 1909160160124609508}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -316,6 +317,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1909160160124609508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3223969933607340865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2252a42cbd5be42b0c4e038eddd700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 4199862813246729803}
+  LevelTime: 30
 --- !u!1 &3415465786694450626
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OwnScene: 1
-  transitionLevel: 0
+  transitionLevel: 1
   transitonLvlBtn: {fileID: 7592525661537473602}
   mainMenuBtn: {fileID: 7373749502263040929}
   stars: []
@@ -2453,7 +2468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OwnScene: 1
-  transitionLevel: 0
+  transitionLevel: 1
   transitonLvlBtn: {fileID: 861072783652027262}
   mainMenuBtn: {fileID: 8298550271607122932}
   stars: []

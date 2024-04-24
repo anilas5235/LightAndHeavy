@@ -121,6 +121,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 6452554622349224093}
     m_Modifications:
     - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 3582973346394732530}
+    - target: {fileID: 2052660251959581683, guid: 00fdb5cb854e3534d82ac6fb17b3fda5, type: 3}
       propertyPath: handler
       value: 
       objectReference: {fileID: 6229696775299409150}
@@ -318,6 +322,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 794130371739605037, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
   m_PrefabInstance: {fileID: 3154758664875856918}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3582973346394732530 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1909160160124609508, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+  m_PrefabInstance: {fileID: 3154758664875856918}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2252a42cbd5be42b0c4e038eddd700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6229696775299409150 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9057759744807989480, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}

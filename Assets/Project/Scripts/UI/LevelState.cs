@@ -14,7 +14,7 @@ public class LevelState : MonoBehaviour
     [SerializeField] private UIPanelControll pauseControl;
     [SerializeField] private UIPanelControll loseControl;
 
-    [SerializeField] private float WinConSeconds;
+    [SerializeField] private Timer timer;
 
     private bool Pause;
 
@@ -85,7 +85,7 @@ public class LevelState : MonoBehaviour
             bool[] stars = {true, false, false};
             winControl.gameObject.SetActive(true);
             Time.timeScale = 0;
-            if (Time.timeSinceLevelLoad < WinConSeconds)
+            if (Time.timeSinceLevelLoad < timer.LevelTime)
             {
                 stars[2] = true;
             }
