@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using AttributesLibrary.ReadOnly;
 using Project.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +14,7 @@ namespace Project.Scripts.LevelObjects
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         [SerializeField] private float magnitude = .05f;
+        [SerializeField, ReadOnly] private bool collected;
 
         public UnityEvent<ElementType> onCollect;
 
@@ -32,9 +34,11 @@ namespace Project.Scripts.LevelObjects
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if(collected) return;
             if (other.gameObject.CompareTag("Player"))
             {
                 if(type != ElementType.None && other.gameObject.GetComponent<IHaveElementType>().GetElementType() != type) return;
+                collected = true;
                 onCollect?.Invoke(type);
                 if (effectParticleSystem)
                 {

@@ -10,7 +10,18 @@ namespace Project.Scripts.LevelObjects
         [SerializeField] private Vector3 position;
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<AdvancedCharacterController2D>().OnGround)
+           Check(other);
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            Check(other);
+        }
+
+        private void Check(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Player") &&
+                other.gameObject.GetComponent<AdvancedCharacterController2D>().OnGround)
             {
                 if (relativeTeleport)
                 {
