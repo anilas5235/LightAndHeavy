@@ -10,6 +10,9 @@ namespace Project.Scripts.LevelObjects
         private void Awake()
         {
             var allCollectables = FindObjectsOfType<Collectable>();
+            collectInfo[ElementType.Light] = 0;
+            collectInfo[ElementType.Heavy] = 0;
+            collectInfo[ElementType.None] = 0;
             foreach (var collectable in allCollectables)
             {
                 collectable.onCollect.AddListener(CollectDetected);
