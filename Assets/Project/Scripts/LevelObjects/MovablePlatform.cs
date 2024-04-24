@@ -87,6 +87,7 @@ namespace Project.Scripts.LevelObjects
             } while (!done);
 
             moveRoutine = null;
+            saveTeleporter.enabled = false;
         }
     }
 }
