@@ -71,10 +71,14 @@ public class UIPanelControll : MonoBehaviour
                     {
                         currentLevel.StarCount = Stars;
                     }
-                    LevelData nextLevel = levelsObject.levelDatas[i+1];
-                    nextLevel.locked = false;
+
+                    if (i+1 < levelsObject.levelDatas.Count)
+                    {
+                        LevelData nextLevel = levelsObject.levelDatas[i+1];
+                        nextLevel.locked = false;
+                        levelsObject.levelDatas[i+1] = nextLevel;
+                    }
                     levelsObject.levelDatas[i] = currentLevel;
-                    levelsObject.levelDatas[i+1] = nextLevel;
                 }
             }
             SaveSystem.Save<AllLevelsObject>(path, levelsObject);

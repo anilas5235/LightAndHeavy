@@ -430,6 +430,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelUI
       objectReference: {fileID: 0}
+    - target: {fileID: 4199862813246729803, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+      propertyPath: m_fontSize
+      value: 62.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199862813246729803, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 265e8adde0322dc4186d29c71996a185, type: 2}
+    - target: {fileID: 4199862813246729803, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2154215607622501220, guid: 265e8adde0322dc4186d29c71996a185, type: 2}
+    - target: {fileID: 4199862813246729803, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4588423451643670753, guid: 928fe3fbc6ab903488759b49044f0e31, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
